@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html lang="ru" xmlns:th="http://www.thymeleaf.org">
+    <body>
+        <div th:fragment="address-input">
+            <p>Страна</p>
+            <select th:name="country" id="country">
+                <option th:each="i : ${countries}" th:value="${i.getId()}" th:text="${i.getName()}">
+                </option>
+            </select>
+            <p>Город</p>
+            <select th:name="city" id="city">
+            </select>
+            <p>Адрес</p>
+            <input type="text" placeholder="ул.Зыгина, д.1" th:name="address"/>
+            <script type="text/javascript" th:src="@{/js/address.js}"></script>
+        </div>
+    </body>
+</html>

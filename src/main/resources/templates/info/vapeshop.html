@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="ru" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title></title>
+</head>
+<body>
+<div class="info container">
+    <p>Номера телефонов</p>
+    <th:block th:each="phone : ${vapeshop.getPhoneNumbers()}">
+        <tr>
+            <td th:text="${phone.getNumber()}">A Smoke Test'</td>
+        </tr>
+    </th:block>
+    <p>Ссылки</p>
+    <th:block th:each="link : ${vapeshop.getContactLinks()}">
+        <tr>
+            <td th:text="${link.getLink()}">A Smoke Test'</td>
+        </tr>
+    </th:block>
+    <p>Страна</p>
+    <p th:text="${vapeshop.getAddress().getCity().getCountry().getName()}">
+    <p>Город</p>
+    <p th:text="${vapeshop.getAddress().getCity().getName()}">
+    <p>Адрес</p>
+    <p th:text="${vapeshop.getAddress().getAddress()}">
+</div>
+</body>
+</html>

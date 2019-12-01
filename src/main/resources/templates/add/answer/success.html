@@ -1,0 +1,15 @@
+<!DOCTYPE html>
+<html lang="ru" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title></title>
+</head>
+<body>
+<div class="answer container">
+    <label th:text="${answer}"></label>
+    <form th:action="@{../../info/vapeshop}" method="get">
+        <button type="submit" th:name="id" th:value="${id}">Страница магазина</button>
+    </form>
+</div>
+</body>
+</html>
