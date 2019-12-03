@@ -2,6 +2,7 @@ package com.tiger8bit.vapeshop.model;
 
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import lombok.ToString;
 
 import java.io.Serializable;
 import javax.persistence.*;
@@ -29,10 +30,11 @@ public class Country implements Serializable {
 
 	private String currency;
 
-	//bi-directional many-to-one association to City
+	@ToString.Exclude
 	@OneToMany(mappedBy="country")
 	private List<City> cities;
 
+	@ToString.Exclude
 	@OneToMany(mappedBy="country")
 	private List<PhoneNumber> phoneNumbers;
 }

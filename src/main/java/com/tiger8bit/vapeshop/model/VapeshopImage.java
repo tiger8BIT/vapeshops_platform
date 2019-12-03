@@ -25,7 +25,6 @@ public class VapeshopImage implements Serializable {
 
 	private String image;
 
-	//bi-directional many-to-one association to Vapeshop
 	@ManyToOne
 	@JoinColumn(name="vapeshop_fk")
 	private Vapeshop vapeshop;

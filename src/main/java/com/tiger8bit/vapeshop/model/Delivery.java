@@ -2,6 +2,7 @@ package com.tiger8bit.vapeshop.model;
 
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import lombok.ToString;
 
 import java.io.Serializable;
 import javax.persistence.*;
@@ -27,11 +28,11 @@ public class Delivery implements Serializable {
 	@Temporal(TemporalType.DATE)
 	private Date datetime;
 
-	//bi-directional many-to-one association to Address
 	@ManyToOne
 	@JoinColumn(name="address_fk")
 	private Address address;
 
+	@ToString.Exclude
 	@OneToMany(mappedBy="delivery")
 	private List<Order> orders;
 

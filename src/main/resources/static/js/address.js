@@ -1,9 +1,12 @@
 function sendAjaxRequest() {
-    var country = $("#country").val();
-    $.get( "/regions?country=" + country, function( data ) {
+    var countryId = $("#country").val();
+    $.get( "/regions", { countryId: countryId}, function( cities ) {
         $("#region").empty();
-        data.forEach(function(item, i) {
-            var option = "<option value = " + item.getId() + ">" + item.getName() +  "</option>";
+        console.log(cities);
+        cities.forEach(function(item) {
+            var option =
+                "<option value = " + item.id + ">"
+                + item.name +  "</option>";
             $("#region").append(option);
         });
     });

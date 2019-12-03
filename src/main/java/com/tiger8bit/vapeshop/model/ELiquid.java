@@ -2,6 +2,7 @@ package com.tiger8bit.vapeshop.model;
 
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import lombok.ToString;
 
 import java.io.Serializable;
 import javax.persistence.*;
@@ -34,17 +35,15 @@ public class ELiquid implements Serializable {
 
 	private Integer volume;
 
-	//bi-directional many-to-one association to BlendRatio
 	@ManyToOne
 	@JoinColumn(name="blend_ratio_fk")
 	private BlendRatio blendRatio;
 
-	//bi-directional many-to-one association to Product
 	@OneToOne(cascade = CascadeType.ALL)
 	@JoinColumn(name="product_fk", referencedColumnName = "id")
 	private Product product;
 
-	//bi-directional many-to-one association to ELiquidFlavorProfile
+	@ToString.Exclude
 	@OneToMany(mappedBy="ELiquid")
 	private List<ELiquidFlavorProfile> ELiquidFlavorProfiles;
 }

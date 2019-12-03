@@ -5,6 +5,6 @@ import java.util.List;
 public interface CountryService {
     List<Country> findAll();
     Country save(Country value);
-    void deleteByID(long id);
-    Country findByID(long id);
+    void deleteByID(int id);
+    Country findByID(int id);
 }

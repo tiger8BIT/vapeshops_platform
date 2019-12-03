@@ -28,7 +28,6 @@ public class PhoneNumber implements Serializable {
 
 	private String description;
 
-	//bi-directional many-to-one association to Vapeshop
 	@ManyToOne
 	@JoinColumn(name="vapeshop_fk")
 	private Vapeshop vapeshop;

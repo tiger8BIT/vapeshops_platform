@@ -24,7 +24,6 @@ public class Sale implements Serializable {
 
 	private Integer percent;
 
-	//bi-directional many-to-one association to Price
 	@ManyToOne
 	@JoinColumn(name="price_fk")
 	private Price price;

@@ -1,13 +1,17 @@
 package com.tiger8bit.vapeshop.controller;
 
 import com.tiger8bit.vapeshop.model.*;
+import com.tiger8bit.vapeshop.model.data.CityData;
 import com.tiger8bit.vapeshop.service.*;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Slf4j
 @Controller
@@ -24,13 +28,18 @@ public class VapeshopController {
     private ContactLinkService contactLinkService;
     @Autowired
     private AddressService addressService;
-    @RequestMapping(value = "/regions")
-    @ResponseBody
-    public List<City> getRegions(@RequestParam Long countryId) {
+    @Autowired
+    private CommercialNetworkService commercialNetworkService;
+
+    @GetMapping("/regions")
+    @ResponseBody public ResponseEntity getRegions(@RequestParam Integer countryId) {
         Country country = countryService.findByID(countryId);
-        List<City> cities = cityService.findCitiesByCountry(country);
-        return cities;
+        List<CityData> cities = cityService.findCitiesByCountry(country)
+                .stream().map(CityData::new).collect(Collectors.toList());
+        log.info("response {}\n", cities);
+        return ResponseEntity.status(HttpStatus.OK).body(cities);
     }
+
     @GetMapping("info/vapeshop")
     public String getVapeshopInfoPage(@RequestParam("id") Long id, Model model){
         Vapeshop vapeshop = vapeshopService.findByID(id.intValue());
@@ -39,6 +48,7 @@ public class VapeshopController {
     }
     @GetMapping("add/vapeshop")
     public String getVapeshopAddingPage(Model model){
+        log.info("{}\n", countryService.findAll());
         model.addAttribute("countries", countryService.findAll());
         return "add/vapeshop";
     }
@@ -58,7 +68,9 @@ public class VapeshopController {
         address.setCity(city);
         address.setAddress(addressInf);
         addressService.save(address);
+        CommercialNetwork commercialNetwork = commercialNetworkService.findByID(2);
         Vapeshop vapeshop = new Vapeshop();
+        vapeshop.setCommercialNetwork(commercialNetwork);
         vapeshop.setAddress(address);
         vapeshopService.save(vapeshop);
         if (email != null)

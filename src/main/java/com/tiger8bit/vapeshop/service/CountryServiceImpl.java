@@ -22,12 +22,12 @@ public class CountryServiceImpl implements CountryService {
     }
 
     @Override
-    public void deleteByID(long id) {
+    public void deleteByID(int id) {
         repository.deleteById(id);
     }
 
     @Override
-    public Country findByID(long id) {
+    public Country findByID(int id) {
         return repository.findById(id).get();
     }
 }

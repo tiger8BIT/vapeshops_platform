@@ -2,6 +2,7 @@ package com.tiger8bit.vapeshop.model;
 
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import lombok.ToString;
 
 import java.io.Serializable;
 import javax.persistence.*;
@@ -31,6 +32,7 @@ public class Order implements Serializable {
 	@JoinColumn(name="delivery_fk")
 	private Delivery delivery;
 
+	@ToString.Exclude
 	@OneToMany(mappedBy="order")
 	private List<OrderPrice> orderPrices;
 }

@@ -23,12 +23,10 @@ public class ELiquidFlavorProfile implements Serializable {
 	@GeneratedValue(strategy=GenerationType.AUTO)
 	private Integer id;
 
-	//bi-directional many-to-one association to ELiquid
 	@ManyToOne
 	@JoinColumn(name="e_liquid_fk")
 	private ELiquid ELiquid;
 
-	//bi-directional many-to-one association to FlavorProfile
 	@ManyToOne
 	@JoinColumn(name="flavor_profile_fk")
 	private FlavorProfile flavorProfile;

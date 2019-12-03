@@ -2,6 +2,7 @@ package com.tiger8bit.vapeshop.model;
 
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import lombok.ToString;
 
 import java.io.Serializable;
 import javax.persistence.*;
@@ -28,7 +29,7 @@ public class CommercialNetwork implements Serializable {
 
 	private String name;
 
-	//bi-directional many-to-one association to Vapeshop
+	@ToString.Exclude
 	@OneToMany(mappedBy="commercialNetwork")
 	private List<Vapeshop> vapeshops;
 }

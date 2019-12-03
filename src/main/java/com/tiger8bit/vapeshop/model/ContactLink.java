@@ -26,7 +26,6 @@ public class ContactLink implements Serializable {
 
 	private String link;
 
-	//bi-directional many-to-one association to Vapeshop
 	@ManyToOne
 	@JoinColumn(name="vapeshop_fk")
 	private Vapeshop vapeshop;

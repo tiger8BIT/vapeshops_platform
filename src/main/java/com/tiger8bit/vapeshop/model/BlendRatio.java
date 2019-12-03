@@ -2,6 +2,7 @@ package com.tiger8bit.vapeshop.model;
 
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import lombok.ToString;
 
 import java.io.Serializable;
 import javax.persistence.*;
@@ -28,7 +29,7 @@ public class BlendRatio implements Serializable {
 
 	private Integer vg;
 
-	//bi-directional many-to-one association to ELiquid
+	@ToString.Exclude
 	@OneToMany(mappedBy="blendRatio")
 	private List<ELiquid> ELiquids;
 }

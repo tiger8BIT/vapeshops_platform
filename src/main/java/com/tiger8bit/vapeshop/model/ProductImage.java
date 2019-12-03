@@ -25,7 +25,6 @@ public class ProductImage implements Serializable {
 
 	private String image;
 
-	//bi-directional many-to-one association to Product
 	@ManyToOne
 	@JoinColumn(name="product_fk")
 	private Product product;

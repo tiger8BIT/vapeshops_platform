@@ -269,12 +269,6 @@ BEGIN
     WHERE product_id = product_fk;
 END;;
 
-CREATE TRIGGER commercial_network_first_l_up_insert BEFORE INSERT ON commercial_network FOR EACH ROW
-    SET NEW.name = capitalize(NEW.name), NEW.logo = LOWER(NEW.logo);;
-
-CREATE TRIGGER commercial_network_first_l_up_update BEFORE UPDATE ON commercial_network FOR EACH ROW
-    SET NEW.name = capitalize(NEW.name), NEW.logo = LOWER(NEW.logo);;
-
 CREATE TRIGGER city_first_l_up_insert BEFORE INSERT ON city FOR EACH ROW
     SET NEW.name = capitalize(NEW.name);;
 
@@ -285,12 +279,6 @@ CREATE TRIGGER country_first_l_up_insert BEFORE INSERT ON country FOR EACH ROW
     SET NEW.name = capitalize(NEW.name);;
 
 CREATE TRIGGER country_first_l_up_update BEFORE UPDATE ON country FOR EACH ROW
-    SET NEW.name = capitalize(NEW.name);;
-
-CREATE TRIGGER product_first_l_up_insert BEFORE INSERT ON product FOR EACH ROW
-    SET NEW.name = capitalize(NEW.name);;
-
-CREATE TRIGGER product_first_l_up_update BEFORE UPDATE ON product FOR EACH ROW
     SET NEW.name = capitalize(NEW.name);;
 
 CREATE TRIGGER product_image_lower_insert BEFORE INSERT ON product_image FOR EACH ROW
