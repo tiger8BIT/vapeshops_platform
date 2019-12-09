@@ -5,6 +5,6 @@ import java.util.List;
 public interface AddressService {
     List<Address> findAll();
     Address save(Address value);
-    void deleteByID(long id);
-    Address findByID(long id);
+    void deleteByID(int id);
+    Address findByID(int id);
 }

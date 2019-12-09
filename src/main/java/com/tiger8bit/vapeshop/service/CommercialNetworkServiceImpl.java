@@ -22,12 +22,12 @@ public class CommercialNetworkServiceImpl implements CommercialNetworkService {
     }
 
     @Override
-    public void deleteByID(long id) {
+    public void deleteByID(int id) {
         repository.deleteById(id);
     }
 
     @Override
-    public CommercialNetwork findByID(long id) {
+    public CommercialNetwork findByID(int id) {
         return repository.findById(id).get();
     }
 }

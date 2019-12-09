@@ -5,6 +5,6 @@ import java.util.List;
 public interface DeliveryService {
     List<Delivery> findAll();
     Delivery save(Delivery value);
-    void deleteByID(long id);
-    Delivery findByID(long id);
+    void deleteByID(int id);
+    Delivery findByID(int id);
 }

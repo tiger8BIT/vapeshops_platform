@@ -22,12 +22,12 @@ public class BrandServiceImpl implements BrandService {
     }
 
     @Override
-    public void deleteByID(long id) {
+    public void deleteByID(int id) {
         repository.deleteById(id);
     }
 
     @Override
-    public Brand findByID(long id) {
+    public Brand findByID(int id) {
         return repository.findById(id).get();
     }
 }

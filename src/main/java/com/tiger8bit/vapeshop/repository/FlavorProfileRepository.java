@@ -4,6 +4,6 @@ import org.springframework.data.repository.CrudRepository;
 import org.springframework.stereotype.Repository;
 
 @Repository
-public interface FlavorProfileRepository extends CrudRepository<FlavorProfile, Long> {
+public interface FlavorProfileRepository extends CrudRepository<FlavorProfile, Integer> {
 
 }

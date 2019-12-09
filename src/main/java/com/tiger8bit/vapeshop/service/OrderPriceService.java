@@ -5,6 +5,6 @@ import java.util.List;
 public interface OrderPriceService {
     List<OrderPrice> findAll();
     OrderPrice save(OrderPrice value);
-    void deleteByID(long id);
-    OrderPrice findByID(long id);
+    void deleteByID(int id);
+    OrderPrice findByID(int id);
 }

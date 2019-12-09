@@ -22,12 +22,12 @@ public class ContactLinkServiceImpl implements ContactLinkService {
     }
 
     @Override
-    public void deleteByID(long id) {
+    public void deleteByID(int id) {
         repository.deleteById(id);
     }
 
     @Override
-    public ContactLink findByID(long id) {
+    public ContactLink findByID(int id) {
         return repository.findById(id).get();
     }
 }

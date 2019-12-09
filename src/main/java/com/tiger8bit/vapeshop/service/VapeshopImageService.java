@@ -5,6 +5,6 @@ import java.util.List;
 public interface VapeshopImageService {
     List<VapeshopImage> findAll();
     VapeshopImage save(VapeshopImage value);
-    void deleteByID(long id);
-    VapeshopImage findByID(long id);
+    void deleteByID(int id);
+    VapeshopImage findByID(int id);
 }

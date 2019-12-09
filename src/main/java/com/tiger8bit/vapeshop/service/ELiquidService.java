@@ -5,6 +5,6 @@ import java.util.List;
 public interface ELiquidService {
     List<ELiquid> findAll();
     ELiquid save(ELiquid value);
-    void deleteByID(long id);
-    ELiquid findByID(long id);
+    void deleteByID(int id);
+    ELiquid findByID(int id);
 }

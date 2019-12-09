@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="ru" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Добавление магазина</title>
+    <link rel="stylesheet" th:href="@{/css/form.css}"/>
+</head>
+</head>
+<body>
+<div class="form container">
+    <form id="form" th:action="@{/add/vapeshop/post}" method="post">
+        <div th:include="/add/product :: product-input"></div>
+        <p>Объём</p>
+        <div class="input-group">
+            <input type="number" min="0" step="1" class="form-control" th:name="volume">
+            <div class="input-group-append">
+                <span class="input-group-text">мл</span>
+            </div>
+        </div>
+        <p>Никотин</p>
+        <div class="input-group">
+            <input type="number" min="0" step="1" class="form-control" th:name="nicotine">
+            <div class="input-group-append">
+                <span class="input-group-text">мл</span>
+            </div>
+        </div>
+        <p>Солевой никотин</p>
+        <div class="input-group">
+            <input type="number" min="0" step="1" class="form-control" th:name="saltNicotine">
+            <div class="input-group-append">
+                <span class="input-group-text">мл</span>
+            </div>
+        </div>
+        <p>Соотношение</p>
+        <select id="blendRatio" th:name="blendRatio">
+            <option th:each="i : ${blendRatio}" th:value="${i.getId()}" th:text="${i.getString()}">
+            </option>
+        </select>
+        <input type="submit" value="Добавить">
+    </form>
+</div>
+</body>
+</html>

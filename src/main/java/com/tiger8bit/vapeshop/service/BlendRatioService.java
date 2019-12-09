@@ -5,6 +5,6 @@ import java.util.List;
 public interface BlendRatioService {
     List<BlendRatio> findAll();
     BlendRatio save(BlendRatio value);
-    void deleteByID(long id);
-    BlendRatio findByID(long id);
+    void deleteByID(int id);
+    BlendRatio findByID(int id);
 }

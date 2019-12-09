@@ -5,6 +5,6 @@ import java.util.List;
 public interface CommercialNetworkService {
     List<CommercialNetwork> findAll();
     CommercialNetwork save(CommercialNetwork value);
-    void deleteByID(long id);
-    CommercialNetwork findByID(long id);
+    void deleteByID(int id);
+    CommercialNetwork findByID(int id);
 }

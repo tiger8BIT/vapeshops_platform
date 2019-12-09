@@ -22,12 +22,12 @@ public class DeliveryServiceImpl implements DeliveryService {
     }
 
     @Override
-    public void deleteByID(long id) {
+    public void deleteByID(int id) {
         repository.deleteById(id);
     }
 
     @Override
-    public Delivery findByID(long id) {
+    public Delivery findByID(int id) {
         return repository.findById(id).get();
     }
 }

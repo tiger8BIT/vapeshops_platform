@@ -8,13 +8,13 @@ CREATE TABLE `product` (
 CREATE TABLE `product_image` (
     `id` int UNIQUE PRIMARY KEY NOT NULL,
     `product_fk` int NOT NULL,
-    `image` varchar(255) UNIQUE NOT NULL
+    `image` mediumtext UNIQUE NOT NULL
 );;
 
 CREATE TABLE `vapeshop_image` (
     `id` int UNIQUE PRIMARY KEY NOT NULL,
     `vapeshop_fk` int NOT NULL,
-    `image` varchar(255) UNIQUE NOT NULL
+    `image` mediumtext UNIQUE NOT NULL
 );;
 
 CREATE TABLE `order` (
@@ -47,7 +47,7 @@ CREATE TABLE `delivery_price` (
 CREATE TABLE `commercial_network` (
     `id` int UNIQUE PRIMARY KEY NOT NULL,
     `name` varchar(255) UNIQUE NOT NULL,
-    `logo` varchar(255) UNIQUE NOT NULL
+    `logo` mediumtext UNIQUE NOT NULL
 );;
 
 CREATE TABLE `vapeshop` (

@@ -22,12 +22,12 @@ public class VapeshopServiceImpl implements VapeshopService {
     }
 
     @Override
-    public void deleteByID(long id) {
+    public void deleteByID(int id) {
         repository.deleteById(id);
     }
 
     @Override
-    public Vapeshop findByID(long id) {
+    public Vapeshop findByID(int id) {
         return repository.findById(id).get();
     }
 }

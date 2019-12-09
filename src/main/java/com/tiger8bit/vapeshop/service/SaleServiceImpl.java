@@ -22,12 +22,12 @@ public class SaleServiceImpl implements SaleService {
     }
 
     @Override
-    public void deleteByID(long id) {
+    public void deleteByID(int id) {
         repository.deleteById(id);
     }
 
     @Override
-    public Sale findByID(long id) {
+    public Sale findByID(int id) {
         return repository.findById(id).get();
     }
 }

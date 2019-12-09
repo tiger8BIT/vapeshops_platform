@@ -5,6 +5,6 @@ import java.util.List;
 public interface FlavorProfileService {
     List<FlavorProfile> findAll();
     FlavorProfile save(FlavorProfile value);
-    void deleteByID(long id);
-    FlavorProfile findByID(long id);
+    void deleteByID(int id);
+    FlavorProfile findByID(int id);
 }

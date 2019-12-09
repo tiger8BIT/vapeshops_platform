@@ -3,15 +3,15 @@
     <body>
         <div th:fragment="address-input">
             <p>Страна</p>
-            <select th:name="country" id="country">
+            <select id="country">
                 <option th:each="i : ${countries}" th:value="${i.getId()}" th:text="${i.getName()}">
                 </option>
             </select>
             <p>Город</p>
-            <select th:name="city" id="region">
+            <select th:name="cityId" id="region">
             </select>
             <p>Адрес</p>
-            <input type="text" placeholder="ул.Зыгина, д.1" th:name="address"/>
+            <input type="text" placeholder="ул.Зыгина, д.1" th:name="addressInf"/>
             <script
                     src="https://code.jquery.com/jquery-3.4.1.js"
                     integrity="sha256-WpOohJOqMqqyKL9FccASB9O0KwACQJpFTUBLTYOVvVU="

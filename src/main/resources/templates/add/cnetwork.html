@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="ru" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Добавление магазина</title>
+    <link rel="stylesheet" th:href="@{/css/form.css}"/>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+</head>
+</head>
+
+<body>
+<div class="form container">
+    <form id="form" th:action="@{/add/cnetwork/post}" method="post">
+        <p>Логотип</p>
+        <div class="row-container">
+            <img id="logo">
+            <input id="logo-input" type="url" placeholder="logo.com" th:name="logo"/>
+        </div>
+        <p>Название</p>
+        <input required type="text" placeholder="Табакерка Ивана" th:name="name"/>
+        <input type="submit" value="Добавить">
+    </form>
+</div>
+<script
+        src="https://code.jquery.com/jquery-3.4.1.js"
+        integrity="sha256-WpOohJOqMqqyKL9FccASB9O0KwACQJpFTUBLTYOVvVU="
+        crossorigin="anonymous"></script>
+<script type="text/javascript" th:src="@{/js/logo.js}"></script>
+</body>
+</html>

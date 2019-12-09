@@ -7,7 +7,7 @@
 <body>
 <div class="answer container">
     <label th:text="${answer}"></label>
-    <form th:action="@{../../info/vapeshop}" method="get">
+    <form th:action="${path}" method="get">
         <button type="submit" th:name="id" th:value="${id}">Страница магазина</button>
     </form>
 </div>

@@ -5,6 +5,6 @@ import java.util.List;
 public interface ProductImageService {
     List<ProductImage> findAll();
     ProductImage save(ProductImage value);
-    void deleteByID(long id);
-    ProductImage findByID(long id);
+    void deleteByID(int id);
+    ProductImage findByID(int id);
 }

@@ -22,12 +22,12 @@ public class PhoneNumberServiceImpl implements PhoneNumberService {
     }
 
     @Override
-    public void deleteByID(long id) {
+    public void deleteByID(int id) {
         repository.deleteById(id);
     }
 
     @Override
-    public PhoneNumber findByID(long id) {
+    public PhoneNumber findByID(int id) {
         return repository.findById(id).get();
     }
 }

@@ -5,6 +5,6 @@ import java.util.List;
 public interface OrderService {
     List<Order> findAll();
     Order save(Order value);
-    void deleteByID(long id);
-    Order findByID(long id);
+    void deleteByID(int id);
+    Order findByID(int id);
 }

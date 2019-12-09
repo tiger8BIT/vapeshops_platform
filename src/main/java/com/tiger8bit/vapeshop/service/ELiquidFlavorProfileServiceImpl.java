@@ -22,12 +22,12 @@ public class ELiquidFlavorProfileServiceImpl implements ELiquidFlavorProfileServ
     }
 
     @Override
-    public void deleteByID(long id) {
+    public void deleteByID(int id) {
         repository.deleteById(id);
     }
 
     @Override
-    public ELiquidFlavorProfile findByID(long id) {
+    public ELiquidFlavorProfile findByID(int id) {
         return repository.findById(id).get();
     }
 }

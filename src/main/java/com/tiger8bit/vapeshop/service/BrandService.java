@@ -5,6 +5,6 @@ import java.util.List;
 public interface BrandService {
     List<Brand> findAll();
     Brand save(Brand value);
-    void deleteByID(long id);
-    Brand findByID(long id);
+    void deleteByID(int id);
+    Brand findByID(int id);
 }

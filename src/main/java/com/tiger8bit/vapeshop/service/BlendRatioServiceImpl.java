@@ -22,12 +22,12 @@ public class BlendRatioServiceImpl implements BlendRatioService {
     }
 
     @Override
-    public void deleteByID(long id) {
+    public void deleteByID(int id) {
         repository.deleteById(id);
     }
 
     @Override
-    public BlendRatio findByID(long id) {
+    public BlendRatio findByID(int id) {
         return repository.findById(id).get();
     }
 }

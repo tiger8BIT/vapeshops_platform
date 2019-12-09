@@ -5,6 +5,6 @@ import java.util.List;
 public interface PriceService {
     List<Price> findAll();
     Price save(Price value);
-    void deleteByID(long id);
-    Price findByID(long id);
+    void deleteByID(int id);
+    Price findByID(int id);
 }

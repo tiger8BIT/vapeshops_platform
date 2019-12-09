@@ -22,12 +22,12 @@ public class ProductImageServiceImpl implements ProductImageService {
     }
 
     @Override
-    public void deleteByID(long id) {
+    public void deleteByID(int id) {
         repository.deleteById(id);
     }
 
     @Override
-    public ProductImage findByID(long id) {
+    public ProductImage findByID(int id) {
         return repository.findById(id).get();
     }
 }

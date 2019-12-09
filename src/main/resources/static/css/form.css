@@ -1,4 +1,4 @@
-input[type=text], select, input[type=tel], input[type=url], input[type=email] {
+input[type=text], select, input[type=tel], input[type=url], input[type=email], textarea {
     width: 100%;
     padding: 12px 20px;
     margin: 8px 0;
@@ -22,7 +22,6 @@ input[type=submit] {
 input[type=submit]:hover {
     background-color: #45a049;
 }
-
 .form.container {
     border-radius: 5px;
     background-color: #f2f2f2;
@@ -31,4 +30,103 @@ input[type=submit]:hover {
     width: 60%;
     left: 50%;
     transform: translate(-50%, 0);
+}
+.material-icons {
+    font-size:24px;
+    color:lightgray;
+    cursor: pointer;
+}
+.material-icons.add{
+    padding-left: 5px;
+}
+.material-icons.remove:hover{
+    color: red;
+}
+.material-icons.add:hover{
+    color: green;
+}
+.row-container{
+    display: flex;
+    flex-flow: row;
+    align-items: center;
+}
+.one-to-one-container {
+    position: relative;
+    width: 100%;
+    padding-top: 50%;
+}
+.one-to-one-container > div {
+    position:  absolute;
+    top: 0;
+    left: 0;
+    bottom: 0;
+    right: 0;
+}
+.two-row-container{
+    display: flex;
+    flex-flow: row;
+    align-items: center;
+    width: 100%;
+}
+.two-row-container > div{
+    height: 100%;
+    width: 50%;
+    padding-right: 5px;
+    padding-left: 5px;
+}
+.two-row-container > div > div {
+    height: 100%;
+}
+.scrollable-y-container {
+    overflow-y: auto;
+}
+.input-container {
+    width: 100%;
+    display: inline-block;
+    position: relative;
+}
+.input-container input {
+    padding-right: 24px;
+}
+.input-container .i-container {
+    height: 100%;
+    position: absolute;
+    bottom: 0;
+    right: 5px;
+}
+.i-container{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+#logo {
+    padding-right: 5px;
+    width: 50px;
+    height: 50px;
+    border: 1px;
+    border-color: gray;
+}
+p {
+    display: block;
+    margin-block-start: 1em;
+    margin-block-end: 1em;
+    margin-inline-start: 0px;
+    margin-inline-end: 0px;
+}
+#carouselExampleIndicators, .carousel-item{
+    min-height: 100%;
+    min-width: 100%;
+    max-height: 100%;
+    max-width: 100%;
+    background-color: lightgray;
+}
+.carousel-item img {
+    position: absolute;
+    top: 50%;
+    -ms-transform: translateY(-50%);
+    transform: translateY(-50%);
+}
+.carousel-inner {
+    position: absolute;
+    height: 100%;
 }

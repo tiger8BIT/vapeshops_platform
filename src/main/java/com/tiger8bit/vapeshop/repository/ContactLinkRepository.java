@@ -4,6 +4,6 @@ import org.springframework.data.repository.CrudRepository;
 import org.springframework.stereotype.Repository;
 
 @Repository
-public interface ContactLinkRepository extends CrudRepository<ContactLink, Long> {
+public interface ContactLinkRepository extends CrudRepository<ContactLink, Integer> {
 
 }

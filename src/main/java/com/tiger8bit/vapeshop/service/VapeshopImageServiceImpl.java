@@ -22,12 +22,12 @@ public class VapeshopImageServiceImpl implements VapeshopImageService {
     }
 
     @Override
-    public void deleteByID(long id) {
+    public void deleteByID(int id) {
         repository.deleteById(id);
     }
 
     @Override
-    public VapeshopImage findByID(long id) {
+    public VapeshopImage findByID(int id) {
         return repository.findById(id).get();
     }
 }

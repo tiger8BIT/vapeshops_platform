@@ -32,4 +32,8 @@ public class BlendRatio implements Serializable {
 	@ToString.Exclude
 	@OneToMany(mappedBy="blendRatio")
 	private List<ELiquid> ELiquids;
+
+	public String getString(){
+		return vg + "/" + pg;
+	}
 }

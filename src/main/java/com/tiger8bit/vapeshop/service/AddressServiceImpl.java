@@ -22,12 +22,12 @@ public class AddressServiceImpl implements AddressService {
     }
 
     @Override
-    public void deleteByID(long id) {
+    public void deleteByID(int id) {
         repository.deleteById(id);
     }
 
     @Override
-    public Address findByID(long id) {
+    public Address findByID(int id) {
         return repository.findById(id).get();
     }
 }

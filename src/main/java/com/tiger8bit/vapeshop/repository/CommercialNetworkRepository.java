@@ -4,6 +4,6 @@ import org.springframework.data.repository.CrudRepository;
 import org.springframework.stereotype.Repository;
 
 @Repository
-public interface CommercialNetworkRepository extends CrudRepository<CommercialNetwork, Long> {
+public interface CommercialNetworkRepository extends CrudRepository<CommercialNetwork, Integer> {
 
 }

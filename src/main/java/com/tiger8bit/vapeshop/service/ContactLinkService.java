@@ -5,6 +5,6 @@ import java.util.List;
 public interface ContactLinkService {
     List<ContactLink> findAll();
     ContactLink save(ContactLink value);
-    void deleteByID(long id);
-    ContactLink findByID(long id);
+    void deleteByID(int id);
+    ContactLink findByID(int id);
 }

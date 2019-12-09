@@ -22,12 +22,12 @@ public class PriceServiceImpl implements PriceService {
     }
 
     @Override
-    public void deleteByID(long id) {
+    public void deleteByID(int id) {
         repository.deleteById(id);
     }
 
     @Override
-    public Price findByID(long id) {
+    public Price findByID(int id) {
         return repository.findById(id).get();
     }
 }

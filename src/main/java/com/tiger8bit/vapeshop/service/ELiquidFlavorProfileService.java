@@ -5,6 +5,6 @@ import java.util.List;
 public interface ELiquidFlavorProfileService {
     List<ELiquidFlavorProfile> findAll();
     ELiquidFlavorProfile save(ELiquidFlavorProfile value);
-    void deleteByID(long id);
-    ELiquidFlavorProfile findByID(long id);
+    void deleteByID(int id);
+    ELiquidFlavorProfile findByID(int id);
 }

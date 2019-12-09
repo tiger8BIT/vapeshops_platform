@@ -22,12 +22,12 @@ public class OrderServiceImpl implements OrderService {
     }
 
     @Override
-    public void deleteByID(long id) {
+    public void deleteByID(int id) {
         repository.deleteById(id);
     }
 
     @Override
-    public Order findByID(long id) {
+    public Order findByID(int id) {
         return repository.findById(id).get();
     }
 }
