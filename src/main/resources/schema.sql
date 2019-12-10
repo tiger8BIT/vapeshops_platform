@@ -1,83 +1,86 @@
+create sequence mariadb_sequence start with 1 increment by 1;;
+
 CREATE TABLE `product` (
-    `id` int UNIQUE PRIMARY KEY NOT NULL,
+    `id` int UNIQUE PRIMARY KEY NOT NULL DEFAULT (NEXT VALUE FOR mariadb_sequence),
     `name` varchar(255) UNIQUE NOT NULL,
     `info` mediumtext,
     `brand_fk` int NOT NULL
 );;
 
 CREATE TABLE `product_image` (
-    `id` int UNIQUE PRIMARY KEY NOT NULL,
+    `id` int UNIQUE PRIMARY KEY NOT NULL DEFAULT (NEXT VALUE FOR mariadb_sequence),
     `product_fk` int NOT NULL,
-    `image` mediumtext UNIQUE NOT NULL
+    `image` varchar(2048) UNIQUE NOT NULL
 );;
 
 CREATE TABLE `vapeshop_image` (
-    `id` int UNIQUE PRIMARY KEY NOT NULL,
+    `id` int UNIQUE PRIMARY KEY NOT NULL DEFAULT (NEXT VALUE FOR mariadb_sequence),
     `vapeshop_fk` int NOT NULL,
-    `image` mediumtext UNIQUE NOT NULL
+    `image` varchar(2048) UNIQUE NOT NULL
 );;
 
 CREATE TABLE `order` (
-    `id` int UNIQUE PRIMARY KEY NOT NULL,
+    `id` int UNIQUE PRIMARY KEY NOT NULL DEFAULT (NEXT VALUE FOR mariadb_sequence),
     `delivery_fk` int DEFAULT NULL,
     `datetime` datetime DEFAULT CURRENT_TIMESTAMP
 );;
 
 CREATE TABLE `order_price` (
-    `id` int UNIQUE PRIMARY KEY NOT NULL,
+    `id` int UNIQUE PRIMARY KEY NOT NULL DEFAULT (NEXT VALUE FOR mariadb_sequence),
     `amount` int CHECK(`amount` > 1),
     `price_fk` int NOT NULL,
     `order_fk` int NOT NULL
 );;
 
 CREATE TABLE `delivery` (
-    `id` int UNIQUE PRIMARY KEY NOT NULL,
+    `id` int UNIQUE PRIMARY KEY NOT NULL DEFAULT (NEXT VALUE FOR mariadb_sequence),
     `datetime` datetime NOT NULL,
     `price_fk` int NOT NULL,
     `address_fk` int NOT NULL
 );;
 
 CREATE TABLE `delivery_price` (
-    `id` int UNIQUE PRIMARY KEY NOT NULL,
+    `id` int UNIQUE PRIMARY KEY NOT NULL DEFAULT (NEXT VALUE FOR mariadb_sequence),
     `price` float NOT NULL CHECK(`price` > 0),
     `city_fk` int NOT NULL,
     `vapeshop_fk` int NOT NULL
 );;
 
 CREATE TABLE `commercial_network` (
-    `id` int UNIQUE PRIMARY KEY NOT NULL,
+    `id` int UNIQUE PRIMARY KEY NOT NULL DEFAULT (NEXT VALUE FOR mariadb_sequence),
     `name` varchar(255) UNIQUE NOT NULL,
-    `logo` mediumtext UNIQUE NOT NULL
+    `info` mediumtext,
+    `logo` varchar(2048) UNIQUE
 );;
 
 CREATE TABLE `vapeshop` (
-    `id` int UNIQUE PRIMARY KEY NOT NULL,
+    `id` int UNIQUE PRIMARY KEY NOT NULL DEFAULT (NEXT VALUE FOR mariadb_sequence),
     `address_fk` int NOT NULL,
     `commercial_network_fk` int,
     `pickup` boolean
 );;
 
 CREATE TABLE `address` (
-    `id` int UNIQUE PRIMARY KEY NOT NULL,
+    `id` int UNIQUE PRIMARY KEY NOT NULL DEFAULT (NEXT VALUE FOR mariadb_sequence),
     `address` varchar(30),
     `city_fk` int NOT NULL
 );;
 
 CREATE TABLE `country` (
-    `id` int UNIQUE PRIMARY KEY NOT NULL,
+    `id` int UNIQUE PRIMARY KEY NOT NULL DEFAULT (NEXT VALUE FOR mariadb_sequence),
     `name` varchar(255) UNIQUE NOT NULL,
     `phone_prefix` varchar(5) UNIQUE NOT NULL,
     `currency` varchar(5) UNIQUE NOT NULL
 );;
 
 CREATE TABLE `city` (
-    `id` int UNIQUE PRIMARY KEY NOT NULL,
+    `id` int UNIQUE PRIMARY KEY NOT NULL DEFAULT (NEXT VALUE FOR mariadb_sequence),
     `name` varchar(255) UNIQUE NOT NULL,
     `country_fk` int NOT NULL
 );;
 
 CREATE TABLE `phone_number` (
-    `id` int UNIQUE PRIMARY KEY NOT NULL,
+    `id` int UNIQUE PRIMARY KEY NOT NULL DEFAULT (NEXT VALUE FOR mariadb_sequence),
     `number` varchar(15) NOT NULL,
     `country_fk` int NOT NULL,
     `description` mediumtext,
@@ -85,20 +88,20 @@ CREATE TABLE `phone_number` (
 );;
 
 CREATE TABLE `contact_link` (
-    `id` int UNIQUE PRIMARY KEY NOT NULL,
+    `id` int UNIQUE PRIMARY KEY NOT NULL DEFAULT (NEXT VALUE FOR mariadb_sequence),
     `link` varchar(100),
     `vapeshop_fk` int NOT NULL
 );;
 
 CREATE TABLE `price` (
-     `id` int UNIQUE PRIMARY KEY NOT NULL,
+     `id` int UNIQUE PRIMARY KEY NOT NULL DEFAULT (NEXT VALUE FOR mariadb_sequence),
      `product_fk` int NOT NULL,
      `value` float CHECK(`value` > 0),
      `vapeshop_fk` int NOT NULL
 );;
 
 CREATE TABLE `e_liquid` (
-    `id` int UNIQUE PRIMARY KEY NOT NULL,
+    `id` int UNIQUE PRIMARY KEY NOT NULL DEFAULT (NEXT VALUE FOR mariadb_sequence),
     `product_fk` int NOT NULL UNIQUE,
     `blend_ratio_fk` int NOT NULL,
     `nicotine` int CHECK(`nicotine` >= 0),
@@ -108,29 +111,31 @@ CREATE TABLE `e_liquid` (
 );;
 
 CREATE TABLE `e_liquid_flavor_profile` (
-    `id` int UNIQUE PRIMARY KEY NOT NULL,
+    `id` int UNIQUE PRIMARY KEY NOT NULL DEFAULT (NEXT VALUE FOR mariadb_sequence),
     `flavor_profile_fk` int NOT NULL,
     `e_liquid_fk` int NOT NULL
 );;
 
 CREATE TABLE `flavor_profile` (
-    `id` int UNIQUE PRIMARY KEY NOT NULL,
+    `id` int UNIQUE PRIMARY KEY NOT NULL DEFAULT (NEXT VALUE FOR mariadb_sequence),
     `name` varchar(255)
 );;
 
 CREATE TABLE `blend_ratio` (
-    `id` int UNIQUE PRIMARY KEY NOT NULL,
+    `id` int UNIQUE PRIMARY KEY NOT NULL DEFAULT (NEXT VALUE FOR mariadb_sequence),
     `vg` int CHECK(`vg` > 0),
     `pg` int CHECK(`pg` > 0)
 );;
 
 CREATE TABLE `brand` (
-     `id` int UNIQUE PRIMARY KEY NOT NULL,
-     `name` varchar(255)
+     `id` int UNIQUE PRIMARY KEY NOT NULL DEFAULT (NEXT VALUE FOR mariadb_sequence),
+     `name` varchar(255) UNIQUE NOT NULL,
+     `logo` varchar(2048) UNIQUE,
+     `info` mediumtext
 );;
 
 CREATE TABLE `sale` (
-    `id` int UNIQUE PRIMARY KEY NOT NULL,
+    `id` int UNIQUE PRIMARY KEY NOT NULL DEFAULT (NEXT VALUE FOR mariadb_sequence),
     `percent` int CHECK('percent' > 0 and 'percent' < 100),
     `price_fk` int NOT NULL
 );;
@@ -281,12 +286,6 @@ CREATE TRIGGER country_first_l_up_insert BEFORE INSERT ON country FOR EACH ROW
 CREATE TRIGGER country_first_l_up_update BEFORE UPDATE ON country FOR EACH ROW
     SET NEW.name = capitalize(NEW.name);;
 
-CREATE TRIGGER product_image_lower_insert BEFORE INSERT ON product_image FOR EACH ROW
-    SET NEW.image = LOWER(NEW.image);;
-
-CREATE TRIGGER product_image_lower_update BEFORE UPDATE ON product_image FOR EACH ROW
-    SET NEW.image = LOWER(NEW.image);;
-
 CREATE TRIGGER vapeshop_image_lower_insert BEFORE INSERT ON vapeshop_image FOR EACH ROW
     SET NEW.image = LOWER(NEW.image);;
 
@@ -366,5 +365,45 @@ BEGIN
     THEN
         SIGNAL SQLSTATE '45000'
             SET MESSAGE_TEXT = 'Cannot add or update row: there is price for this product';
+    END IF;
+END;;
+
+CREATE TRIGGER blend_ratio_validate_insert
+    BEFORE INSERT ON blend_ratio FOR EACH ROW
+BEGIN
+    IF NEW.pg + NEW.vg != 100
+    THEN
+        SIGNAL SQLSTATE '45000'
+            SET MESSAGE_TEXT = 'Cannot add or update row: sum of vg and pg is not 100';
+    END IF;
+END;;
+
+CREATE TRIGGER blend_ratio_validate_update
+    BEFORE UPDATE ON blend_ratio FOR EACH ROW
+BEGIN
+    IF NEW.pg + NEW.vg != 100
+    THEN
+        SIGNAL SQLSTATE '45000'
+            SET MESSAGE_TEXT = 'Cannot add or update row: sum of vg and pg is not 100';
+    END IF;
+END;;
+
+CREATE TRIGGER product_img_url_validate_insert
+    BEFORE INSERT ON product_image FOR EACH ROW
+BEGIN
+    IF NEW.image REGEXP 'https?:\/\/(www\.)?[-a-zA-Z0-9@:%._\+~#=]{1,256}\.[a-zA-Z0-9()]{1,6}\b([-a-zA-Z0-9()@:%_\+.~#?&//=]*)'
+    THEN
+        SIGNAL SQLSTATE '45000'
+            SET MESSAGE_TEXT = 'Cannot add or update row: only digits allows';
+    END IF;
+END;;
+
+CREATE TRIGGER product_img_url_validate_update
+    BEFORE UPDATE ON product_image FOR EACH ROW
+BEGIN
+    IF NEW.image REGEXP 'https?:\/\/(www\.)?[-a-zA-Z0-9@:%._\+~#=]{1,256}\.[a-zA-Z0-9()]{1,6}\b([-a-zA-Z0-9()@:%_\+.~#?&//=]*)'
+    THEN
+        SIGNAL SQLSTATE '45000'
+            SET MESSAGE_TEXT = 'Cannot add or update row: only digits allows';
     END IF;
 END;;

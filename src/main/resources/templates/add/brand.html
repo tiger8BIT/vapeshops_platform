@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="ru" xmlns:th="http://www.thymeleaf.org">
+<body>
+<div th:fragment="brand-input">
+    <div class="modal fade" id="brandModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalCenterTitle">Добавление соотношения</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <div id="brand-result"><p></p></div>
+                    <form action="javascript: createBrandRequest();" id="brand-form">
+                        <p>Название</p>
+                        <input id="brand-name" type="text" placeholder="Banana brain" th:name="name"/>
+                        <p>Логотип</p>
+                        <div class="row-container">
+                            <img id="logo">
+                            <input id="logo-input" type="url" placeholder="logo.com"/>
+                        </div>
+                        <p>Описание</p>
+                        <textarea id="brand-info" placeholder="Описание бренда" th:name="info"></textarea>
+                        <input type="submit" value="Добавить">
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script type="text/javascript" th:src="@{/js/logo.js}"></script>
+    <script type="text/javascript" th:src="@{/js/brand.js}"></script>
+</div>
+</body>
+</html>

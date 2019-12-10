@@ -59,8 +59,4 @@ $(document).ready(function() {
             phoneNumbersContainer.removeChild(inputContainer);
         });
     });
-    var logo = document.getElementById('logo');
-    document.getElementById('logo-input').addEventListener('change', function (ev) {
-        logo.src = ev.target.value;
-    });
 });

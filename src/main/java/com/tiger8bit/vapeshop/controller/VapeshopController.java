@@ -95,8 +95,12 @@ public class VapeshopController {
         try {
             vapeshopService.save(vapeshop);
         } catch (Exception e) {
-            log.error(e.getMessage());
-            model.addAttribute("error", e.getMessage());
+            Throwable couse = e.getCause();
+            while(couse.getCause() != null) {
+                couse = couse.getCause();
+            }
+            log.error(couse.getMessage());
+            model.addAttribute("error", couse.getMessage());
             return "add/answer/error";
         }
         model.addAttribute("answer", "Магазин успешно добавлен");

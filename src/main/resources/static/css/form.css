@@ -130,3 +130,11 @@ p {
     position: absolute;
     height: 100%;
 }
+a {
+    font-size: small;
+}
+#brand-result {
+    padding: 5px 5px;
+    overflow-y: auto;
+    overflow-x: auto;
+}

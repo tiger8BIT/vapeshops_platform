@@ -34,12 +34,14 @@ public class CNetworkController {
     @PostMapping("add/cnetwork/post")
     public String newVapeshop(@RequestParam String logo,
                               @RequestParam String name,
+                              @RequestParam String info,
                               Model model
     )
     {
         CommercialNetwork commercialNetwork = new CommercialNetwork();
         commercialNetwork.setLogo(logo);
         commercialNetwork.setName(name);
+        commercialNetwork.setInfo(info);
         try {
             commercialNetworkService.save(commercialNetwork);
         } catch (Exception e) {

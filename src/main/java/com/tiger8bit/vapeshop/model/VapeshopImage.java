@@ -6,6 +6,8 @@ import lombok.NoArgsConstructor;
 import java.io.Serializable;
 import javax.persistence.*;
 
+import static javax.persistence.GenerationType.SEQUENCE;
+
 
 /**
  * The persistent class for the vapeshop_image database table.
@@ -20,7 +22,8 @@ public class VapeshopImage implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	@Id
-	@GeneratedValue(strategy=GenerationType.AUTO)
+	@SequenceGenerator(name = "hibernate_sequence", sequenceName = "hibernate_sequence")
+	@GeneratedValue(strategy = SEQUENCE, generator = "hibernate_sequence")
 	private Integer id;
 
 	private String image;

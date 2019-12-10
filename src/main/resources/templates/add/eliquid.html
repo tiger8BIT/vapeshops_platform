@@ -7,7 +7,7 @@
 </head>
 <body>
 <div class="form container">
-    <form id="form" th:action="@{/add/vapeshop/post}" method="post">
+    <form id="form" th:action="@{/add/eliquid/post}" method="post">
         <div th:include="/add/product :: product-input"></div>
         <p>Объём</p>
         <div class="input-group">
@@ -31,12 +31,17 @@
             </div>
         </div>
         <p>Соотношение</p>
-        <select id="blendRatio" th:name="blendRatio">
+        <select id="blendRatio" th:name="blendRatioId" style="margin-bottom: 0">
             <option th:each="i : ${blendRatio}" th:value="${i.getId()}" th:text="${i.getString()}">
             </option>
         </select>
+        <a href="" data-toggle="modal" data-target="#blendRatioModal">
+            Не нашли нужное соотношение?
+        </a>
         <input type="submit" value="Добавить">
     </form>
 </div>
+<div th:include="/add/blend-ratio :: blend-ratio-input"></div>
+<div th:include="/add/brand :: brand-input"></div>
 </body>
 </html>

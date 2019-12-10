@@ -44,6 +44,10 @@ public class ELiquidController {
                               @RequestParam String name,
                               @RequestParam String info,
                               @RequestParam Integer brandId,
+                              @RequestParam Integer volume,
+                              @RequestParam Integer nicotine,
+                              @RequestParam Integer saltNicotine,
+                              @RequestParam Integer blendRatioId,
                               Model model
     )
     {
@@ -52,19 +56,29 @@ public class ELiquidController {
         product.setBrand(brand);
         product.setName(name);
         product.setInfo(info);
+        ELiquid eLiquid = new ELiquid();
+        eLiquid.setProduct(product);
+        eLiquid.setVolume(volume);
+        eLiquid.setNicotine(nicotine);
+        eLiquid.setSaltNicotine(saltNicotine);
+        BlendRatio blendRatio = blendRatioService.findByID(blendRatioId);
+        eLiquid.setBlendRatio(blendRatio);
+        productService.save(product);
         images.forEach((value)-> {
             ProductImage productImage = new ProductImage();
             productImage.setProduct(product);
             productImage.setImage(value);
             productImageService.save(productImage);
         });
-        ELiquid eLiquid = new ELiquid();
-        eLiquid.setProduct(product);
         try {
             eLiquidService.save(eLiquid);
         } catch (Exception e) {
-            log.error(e.getMessage());
-            model.addAttribute("error", e.getMessage());
+            Throwable couse = e.getCause();
+            while(couse.getCause() != null) {
+                couse = couse.getCause();
+            }
+            log.error(couse.getMessage());
+            model.addAttribute("error", couse.getMessage());
             return "add/answer/error";
         }
         model.addAttribute("answer", "Магазин успешно добавлен");

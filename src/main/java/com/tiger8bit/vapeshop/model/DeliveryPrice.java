@@ -2,9 +2,12 @@ package com.tiger8bit.vapeshop.model;
 
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.hibernate.annotations.GenericGenerator;
 
 import javax.persistence.*;
 import java.util.List;
+
+import static javax.persistence.GenerationType.SEQUENCE;
 
 @Entity
 @Data
@@ -12,7 +15,8 @@ import java.util.List;
 @NamedQuery(name="DeliveryPrice.findAll", query="SELECT d FROM DeliveryPrice d")
 public class DeliveryPrice {
     @Id
-    @GeneratedValue(strategy= GenerationType.AUTO)
+    @SequenceGenerator(name = "hibernate_sequence", sequenceName = "hibernate_sequence")
+    @GeneratedValue(strategy = SEQUENCE, generator = "hibernate_sequence")
     private Integer id;
 
     @ManyToOne

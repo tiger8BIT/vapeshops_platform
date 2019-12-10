@@ -2,9 +2,12 @@ package com.tiger8bit.vapeshop.model;
 
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.hibernate.annotations.GenericGenerator;
 
 import java.io.Serializable;
 import javax.persistence.*;
+
+import static javax.persistence.GenerationType.SEQUENCE;
 
 
 /**
@@ -19,7 +22,8 @@ public class Sale implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	@Id
-	@GeneratedValue(strategy=GenerationType.AUTO)
+	@SequenceGenerator(name = "hibernate_sequence", sequenceName = "hibernate_sequence")
+	@GeneratedValue(strategy = SEQUENCE, generator = "hibernate_sequence")
 	private Integer id;
 
 	private Integer percent;

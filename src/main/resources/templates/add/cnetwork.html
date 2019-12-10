@@ -10,13 +10,15 @@
 <body>
 <div class="form container">
     <form id="form" th:action="@{/add/cnetwork/post}" method="post">
+        <p>Название</p>
+        <input required type="text" placeholder="Табакерка Ивана" th:name="name"/>
         <p>Логотип</p>
         <div class="row-container">
             <img id="logo">
             <input id="logo-input" type="url" placeholder="logo.com" th:name="logo"/>
         </div>
-        <p>Название</p>
-        <input required type="text" placeholder="Табакерка Ивана" th:name="name"/>
+        <p>Описание</p>
+        <textarea placeholder="Описание торговой сети" th:name="info"></textarea>
         <input type="submit" value="Добавить">
     </form>
 </div>
