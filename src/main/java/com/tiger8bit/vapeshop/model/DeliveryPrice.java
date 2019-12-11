@@ -15,8 +15,7 @@ import static javax.persistence.GenerationType.SEQUENCE;
 @NamedQuery(name="DeliveryPrice.findAll", query="SELECT d FROM DeliveryPrice d")
 public class DeliveryPrice {
     @Id
-    @SequenceGenerator(name = "hibernate_sequence", sequenceName = "hibernate_sequence")
-    @GeneratedValue(strategy = SEQUENCE, generator = "hibernate_sequence")
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
     @ManyToOne

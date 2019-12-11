@@ -1,86 +1,84 @@
-create sequence mariadb_sequence start with 1 increment by 1;;
-
 CREATE TABLE `product` (
-    `id` int UNIQUE PRIMARY KEY NOT NULL DEFAULT (NEXT VALUE FOR mariadb_sequence),
+    `id` int UNIQUE PRIMARY KEY NOT NULL AUTO_INCREMENT,
     `name` varchar(255) UNIQUE NOT NULL,
     `info` mediumtext,
     `brand_fk` int NOT NULL
 );;
 
 CREATE TABLE `product_image` (
-    `id` int UNIQUE PRIMARY KEY NOT NULL DEFAULT (NEXT VALUE FOR mariadb_sequence),
+    `id` int UNIQUE PRIMARY KEY NOT NULL AUTO_INCREMENT,
     `product_fk` int NOT NULL,
-    `image` varchar(2048) UNIQUE NOT NULL
+    `image` varchar(1024) UNIQUE NOT NULL
 );;
 
 CREATE TABLE `vapeshop_image` (
-    `id` int UNIQUE PRIMARY KEY NOT NULL DEFAULT (NEXT VALUE FOR mariadb_sequence),
+    `id` int UNIQUE PRIMARY KEY NOT NULL AUTO_INCREMENT,
     `vapeshop_fk` int NOT NULL,
-    `image` varchar(2048) UNIQUE NOT NULL
+    `image` varchar(1024) UNIQUE NOT NULL
 );;
 
 CREATE TABLE `order` (
-    `id` int UNIQUE PRIMARY KEY NOT NULL DEFAULT (NEXT VALUE FOR mariadb_sequence),
+    `id` int UNIQUE PRIMARY KEY NOT NULL AUTO_INCREMENT,
     `delivery_fk` int DEFAULT NULL,
     `datetime` datetime DEFAULT CURRENT_TIMESTAMP
 );;
 
 CREATE TABLE `order_price` (
-    `id` int UNIQUE PRIMARY KEY NOT NULL DEFAULT (NEXT VALUE FOR mariadb_sequence),
+    `id` int UNIQUE PRIMARY KEY NOT NULL AUTO_INCREMENT,
     `amount` int CHECK(`amount` > 1),
     `price_fk` int NOT NULL,
     `order_fk` int NOT NULL
 );;
 
 CREATE TABLE `delivery` (
-    `id` int UNIQUE PRIMARY KEY NOT NULL DEFAULT (NEXT VALUE FOR mariadb_sequence),
+    `id` int UNIQUE PRIMARY KEY NOT NULL AUTO_INCREMENT,
     `datetime` datetime NOT NULL,
     `price_fk` int NOT NULL,
     `address_fk` int NOT NULL
 );;
 
 CREATE TABLE `delivery_price` (
-    `id` int UNIQUE PRIMARY KEY NOT NULL DEFAULT (NEXT VALUE FOR mariadb_sequence),
+    `id` int UNIQUE PRIMARY KEY NOT NULL AUTO_INCREMENT,
     `price` float NOT NULL CHECK(`price` > 0),
     `city_fk` int NOT NULL,
     `vapeshop_fk` int NOT NULL
 );;
 
 CREATE TABLE `commercial_network` (
-    `id` int UNIQUE PRIMARY KEY NOT NULL DEFAULT (NEXT VALUE FOR mariadb_sequence),
+    `id` int UNIQUE PRIMARY KEY NOT NULL AUTO_INCREMENT,
     `name` varchar(255) UNIQUE NOT NULL,
     `info` mediumtext,
-    `logo` varchar(2048) UNIQUE
+    `logo` varchar(1024) UNIQUE
 );;
 
 CREATE TABLE `vapeshop` (
-    `id` int UNIQUE PRIMARY KEY NOT NULL DEFAULT (NEXT VALUE FOR mariadb_sequence),
+    `id` int UNIQUE PRIMARY KEY NOT NULL AUTO_INCREMENT,
     `address_fk` int NOT NULL,
     `commercial_network_fk` int,
     `pickup` boolean
 );;
 
 CREATE TABLE `address` (
-    `id` int UNIQUE PRIMARY KEY NOT NULL DEFAULT (NEXT VALUE FOR mariadb_sequence),
+    `id` int UNIQUE PRIMARY KEY NOT NULL AUTO_INCREMENT,
     `address` varchar(30),
     `city_fk` int NOT NULL
 );;
 
 CREATE TABLE `country` (
-    `id` int UNIQUE PRIMARY KEY NOT NULL DEFAULT (NEXT VALUE FOR mariadb_sequence),
+    `id` int UNIQUE PRIMARY KEY NOT NULL AUTO_INCREMENT,
     `name` varchar(255) UNIQUE NOT NULL,
     `phone_prefix` varchar(5) UNIQUE NOT NULL,
     `currency` varchar(5) UNIQUE NOT NULL
 );;
 
 CREATE TABLE `city` (
-    `id` int UNIQUE PRIMARY KEY NOT NULL DEFAULT (NEXT VALUE FOR mariadb_sequence),
+    `id` int UNIQUE PRIMARY KEY NOT NULL AUTO_INCREMENT,
     `name` varchar(255) UNIQUE NOT NULL,
     `country_fk` int NOT NULL
 );;
 
 CREATE TABLE `phone_number` (
-    `id` int UNIQUE PRIMARY KEY NOT NULL DEFAULT (NEXT VALUE FOR mariadb_sequence),
+    `id` int UNIQUE PRIMARY KEY NOT NULL AUTO_INCREMENT,
     `number` varchar(15) NOT NULL,
     `country_fk` int NOT NULL,
     `description` mediumtext,
@@ -88,20 +86,20 @@ CREATE TABLE `phone_number` (
 );;
 
 CREATE TABLE `contact_link` (
-    `id` int UNIQUE PRIMARY KEY NOT NULL DEFAULT (NEXT VALUE FOR mariadb_sequence),
+    `id` int UNIQUE PRIMARY KEY NOT NULL AUTO_INCREMENT,
     `link` varchar(100),
     `vapeshop_fk` int NOT NULL
 );;
 
 CREATE TABLE `price` (
-     `id` int UNIQUE PRIMARY KEY NOT NULL DEFAULT (NEXT VALUE FOR mariadb_sequence),
+     `id` int UNIQUE PRIMARY KEY NOT NULL AUTO_INCREMENT,
      `product_fk` int NOT NULL,
      `value` float CHECK(`value` > 0),
      `vapeshop_fk` int NOT NULL
 );;
 
 CREATE TABLE `e_liquid` (
-    `id` int UNIQUE PRIMARY KEY NOT NULL DEFAULT (NEXT VALUE FOR mariadb_sequence),
+    `id` int UNIQUE PRIMARY KEY NOT NULL AUTO_INCREMENT,
     `product_fk` int NOT NULL UNIQUE,
     `blend_ratio_fk` int NOT NULL,
     `nicotine` int CHECK(`nicotine` >= 0),
@@ -111,31 +109,31 @@ CREATE TABLE `e_liquid` (
 );;
 
 CREATE TABLE `e_liquid_flavor_profile` (
-    `id` int UNIQUE PRIMARY KEY NOT NULL DEFAULT (NEXT VALUE FOR mariadb_sequence),
+    `id` int UNIQUE PRIMARY KEY NOT NULL AUTO_INCREMENT,
     `flavor_profile_fk` int NOT NULL,
     `e_liquid_fk` int NOT NULL
 );;
 
 CREATE TABLE `flavor_profile` (
-    `id` int UNIQUE PRIMARY KEY NOT NULL DEFAULT (NEXT VALUE FOR mariadb_sequence),
+    `id` int UNIQUE PRIMARY KEY NOT NULL AUTO_INCREMENT,
     `name` varchar(255)
 );;
 
 CREATE TABLE `blend_ratio` (
-    `id` int UNIQUE PRIMARY KEY NOT NULL DEFAULT (NEXT VALUE FOR mariadb_sequence),
+    `id` int UNIQUE PRIMARY KEY NOT NULL AUTO_INCREMENT,
     `vg` int CHECK(`vg` > 0),
     `pg` int CHECK(`pg` > 0)
 );;
 
 CREATE TABLE `brand` (
-     `id` int UNIQUE PRIMARY KEY NOT NULL DEFAULT (NEXT VALUE FOR mariadb_sequence),
+     `id` int UNIQUE PRIMARY KEY AUTO_INCREMENT,
      `name` varchar(255) UNIQUE NOT NULL,
      `logo` varchar(2048) UNIQUE,
      `info` mediumtext
 );;
 
 CREATE TABLE `sale` (
-    `id` int UNIQUE PRIMARY KEY NOT NULL DEFAULT (NEXT VALUE FOR mariadb_sequence),
+    `id` int UNIQUE PRIMARY KEY AUTO_INCREMENT,
     `percent` int CHECK('percent' > 0 and 'percent' < 100),
     `price_fk` int NOT NULL
 );;
@@ -406,4 +404,43 @@ BEGIN
         SIGNAL SQLSTATE '45000'
             SET MESSAGE_TEXT = 'Cannot add or update row: only digits allows';
     END IF;
+END;;
+
+CREATE PROCEDURE add_vapeshop(IN paddress varchar(30),
+                              IN pcity_fk int, IN pcommercial_network_fk int,
+                              IN ppickup boolean, OUT pvapeshop_id int)
+BEGIN
+    DECLARE EXIT HANDLER FOR SQLEXCEPTION
+        BEGIN
+            GET DIAGNOSTICS CONDITION 1
+                @p1 = RETURNED_SQLSTATE, @p2 = MESSAGE_TEXT;
+            SELECT @p1 as RETURNED_SQLSTATE  , @p2 as MESSAGE_TEXT;
+            ROLLBACK;
+        END;
+    START TRANSACTION;
+        INSERT INTO address (address, city_fk) VALUES (paddress, pcity_fk);
+        INSERT INTO vapeshop (address_fk, commercial_network_fk, pickup)
+            VALUES ((SELECT LAST_INSERT_ID()), pcommercial_network_fk, ppickup);
+        SELECT LAST_INSERT_ID() INTO pvapeshop_id;
+    COMMIT;
+END;;
+CREATE PROCEDURE update_vapeshop(pvapeshop_id int, IN paddress varchar(30),
+                              IN pcity_fk int, IN pcommercial_network_fk int,
+                              IN ppickup boolean)
+BEGIN
+    DECLARE EXIT HANDLER FOR SQLEXCEPTION
+        BEGIN
+            GET DIAGNOSTICS CONDITION 1
+                @p1 = RETURNED_SQLSTATE, @p2 = MESSAGE_TEXT;
+            SELECT @p1 as RETURNED_SQLSTATE  , @p2 as MESSAGE_TEXT;
+            ROLLBACK;
+        END;
+    DECLARE laddres_id int;
+    SET laddres_id = (SELECT address_fk FROM vapeshop WHERE id = pvapeshop_id);
+    UPDATE address SET address = paddress, city_fk = pcity_fk
+        WHERE id = laddres_id;
+    UPDATE vapeshop SET address_fk = laddres_id,
+                        commercial_network_fk = pcommercial_network_fk, pickup = ppickup
+        WHERE id = pvapeshop_id;
+    COMMIT;
 END;;

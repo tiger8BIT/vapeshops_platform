@@ -25,8 +25,7 @@ public class CommercialNetwork implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	@Id
-	@SequenceGenerator(name = "hibernate_sequence", sequenceName = "hibernate_sequence")
-	@GeneratedValue(strategy = SEQUENCE, generator = "hibernate_sequence")
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Integer id;
 
 	private String logo;
