@@ -7,4 +7,5 @@ public interface VapeshopService {
     Vapeshop save(Vapeshop value);
     void deleteByID(int id);
     Vapeshop findByID(int id);
+    Integer addVapeshop(String p_address, Integer p_city_fk, Integer p_commercial_network_fk, Boolean p_pickup);
 }

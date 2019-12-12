@@ -71,7 +71,7 @@ public class VapeshopController {
                               Model model
     )
     {
-        Address address = new Address();
+        /*Address address = new Address();
         City city = cityService.findByID(cityId.intValue());
         address.setCity(city);
         address.setAddress(addressInf);
@@ -102,9 +102,10 @@ public class VapeshopController {
             log.error(couse.getMessage());
             model.addAttribute("error", couse.getMessage());
             return "add/answer/error";
-        }
+        }*/
+        int id = vapeshopService.addVapeshop(addressInf, cityId, 2, true);
         model.addAttribute("answer", "Магазин успешно добавлен");
-        model.addAttribute("id", vapeshop.getId());
+        model.addAttribute("id", id);
         model.addAttribute("path", "../../info/vapeshop");
         return "add/answer/success";
     }

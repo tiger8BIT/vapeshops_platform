@@ -406,9 +406,9 @@ BEGIN
     END IF;
 END;;
 
-CREATE PROCEDURE add_vapeshop(IN paddress varchar(30),
-                              IN pcity_fk int, IN pcommercial_network_fk int,
-                              IN ppickup boolean, OUT pvapeshop_id int)
+CREATE PROCEDURE add_vapeshop(IN p_address varchar(30),
+                              IN p_city_fk int, IN p_commercial_network_fk int,
+                              IN p_pickup boolean, OUT p_vapeshop_id int)
 BEGIN
     DECLARE EXIT HANDLER FOR SQLEXCEPTION
         BEGIN
@@ -418,15 +418,37 @@ BEGIN
             ROLLBACK;
         END;
     START TRANSACTION;
-        INSERT INTO address (address, city_fk) VALUES (paddress, pcity_fk);
+        INSERT INTO address (address, city_fk) VALUES (p_address, p_city_fk);
         INSERT INTO vapeshop (address_fk, commercial_network_fk, pickup)
-            VALUES ((SELECT LAST_INSERT_ID()), pcommercial_network_fk, ppickup);
-        SELECT LAST_INSERT_ID() INTO pvapeshop_id;
+            VALUES ((SELECT LAST_INSERT_ID()), p_commercial_network_fk, p_pickup);
+        SELECT LAST_INSERT_ID() INTO p_vapeshop_id;
     COMMIT;
 END;;
+
 CREATE PROCEDURE update_vapeshop(pvapeshop_id int, IN paddress varchar(30),
                               IN pcity_fk int, IN pcommercial_network_fk int,
                               IN ppickup boolean)
+BEGIN
+    DECLARE laddres_id int;
+    DECLARE EXIT HANDLER FOR SQLEXCEPTION
+        BEGIN
+            GET DIAGNOSTICS CONDITION 1
+                @p1 = RETURNED_SQLSTATE, @p2 = MESSAGE_TEXT;
+            SELECT @p1 as RETURNED_SQLSTATE  , @p2 as MESSAGE_TEXT;
+            ROLLBACK;
+        END;
+    SET laddres_id = (SELECT address_fk FROM vapeshop WHERE id = pvapeshop_id);
+    UPDATE address SET address = paddress, city_fk = pcity_fk
+        WHERE id = laddres_id;
+    UPDATE vapeshop SET address_fk = laddres_id,
+                        commercial_network_fk = pcommercial_network_fk, pickup = ppickup
+        WHERE id = pvapeshop_id;
+    COMMIT;
+END;;
+
+CREATE PROCEDURE add_eliquid(IN p_name varchar(255), IN p_info mediumtext, IN p_brand_fk int,
+                             IN p_blend_ratio_fk int, IN p_nicotine int, IN p_salt_nicotine int,
+                             IN p_volume int, IN p_mint_menthol boolean, OUT p_eliquid_id int)
 BEGIN
     DECLARE EXIT HANDLER FOR SQLEXCEPTION
         BEGIN
@@ -435,12 +457,11 @@ BEGIN
             SELECT @p1 as RETURNED_SQLSTATE  , @p2 as MESSAGE_TEXT;
             ROLLBACK;
         END;
-    DECLARE laddres_id int;
-    SET laddres_id = (SELECT address_fk FROM vapeshop WHERE id = pvapeshop_id);
-    UPDATE address SET address = paddress, city_fk = pcity_fk
-        WHERE id = laddres_id;
-    UPDATE vapeshop SET address_fk = laddres_id,
-                        commercial_network_fk = pcommercial_network_fk, pickup = ppickup
-        WHERE id = pvapeshop_id;
+    START TRANSACTION;
+    INSERT INTO product (name, info, brand_fk) VALUES (p_name, p_info, p_brand_fk);
+    INSERT INTO e_liquid (product_fk, blend_ratio_fk, nicotine, salt_nicotine, volume, mint_menthol)
+        VALUES ((SELECT LAST_INSERT_ID()), p_blend_ratio_fk, p_nicotine, p_salt_nicotine, p_volume,
+                p_mint_menthol);
+        SELECT LAST_INSERT_ID() INTO p_eliquid_id;
     COMMIT;
 END;;

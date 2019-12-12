@@ -19,6 +19,34 @@ import static javax.persistence.GenerationType.SEQUENCE;
 @Entity
 @Data
 @NoArgsConstructor
+@NamedStoredProcedureQueries({
+		@NamedStoredProcedureQuery(
+				name = "add_vapeshop",
+				procedureName = "vapeshop.add_vapeshop",
+				parameters = {
+						@StoredProcedureParameter(
+								name = "p_address",
+								type = String.class,
+								mode = ParameterMode.IN),
+						@StoredProcedureParameter(
+								name = "p_city_fk",
+								type = Integer.class,
+								mode = ParameterMode.IN),
+						@StoredProcedureParameter(
+								name = "p_commercial_network_fk",
+								type = Integer.class,
+								mode = ParameterMode.IN),
+						@StoredProcedureParameter(
+								name = "p_pickup",
+								type = Boolean.class,
+								mode = ParameterMode.IN),
+						@StoredProcedureParameter(
+								name = "p_vapeshop_id",
+								type = Integer.class,
+								mode = ParameterMode.OUT)
+				}
+				)
+})
 @NamedQuery(name="Vapeshop.findAll", query="SELECT v FROM Vapeshop v")
 public class Vapeshop implements Serializable {
 	private static final long serialVersionUID = 1L;
