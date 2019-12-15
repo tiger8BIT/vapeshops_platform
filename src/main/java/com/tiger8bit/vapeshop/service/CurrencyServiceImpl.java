@@ -1,23 +1,24 @@
 package com.tiger8bit.vapeshop.service;
-import com.tiger8bit.vapeshop.model.VapeshopImage;
-import com.tiger8bit.vapeshop.repository.VapeshopImageRepository;
+
+import com.tiger8bit.vapeshop.model.Currency;
+import com.tiger8bit.vapeshop.repository.CurrencyRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 
 @Service
-public class VapeshopImageServiceImpl implements VapeshopImageService {
+public class CurrencyServiceImpl implements CurrencyService {
     @Autowired
-    private VapeshopImageRepository repository;
+    private CurrencyRepository repository;
 
     @Override
-    public List<VapeshopImage> findAll() {
-        return (List<VapeshopImage>) repository.findAll();
+    public List<Currency> findAll() {
+        return (List<Currency>) repository.findAll();
     }
 
     @Override
-    public VapeshopImage save(VapeshopImage value) {
+    public Currency save(Currency value) {
         return repository.save(value);
     }
 
@@ -27,7 +28,7 @@ public class VapeshopImageServiceImpl implements VapeshopImageService {
     }
 
     @Override
-    public VapeshopImage findByID(int id) {
+    public Currency findByID(int id) {
         return repository.findById(id).get();
     }
 }

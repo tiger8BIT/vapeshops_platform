@@ -29,11 +29,13 @@ public class Brand implements Serializable {
 
 	private String name;
 
-	private String logo;
-
 	private String info;
 
 	@ToString.Exclude
 	@OneToMany(mappedBy="brand")
 	private List<Product> products;
+
+	@ManyToOne
+	@JoinColumn(name="image_fk")
+	private Image image;
 }

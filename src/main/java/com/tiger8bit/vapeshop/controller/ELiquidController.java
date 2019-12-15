@@ -10,6 +10,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.LinkedList;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -23,7 +25,7 @@ public class ELiquidController {
     @Autowired
     private BrandService brandService;
     @Autowired
-    private ProductImageService productImageService;
+    private ImageService imageService;
     @Autowired
     private BlendRatioService blendRatioService;
 
@@ -64,11 +66,10 @@ public class ELiquidController {
         BlendRatio blendRatio = blendRatioService.findByID(blendRatioId);
         eLiquid.setBlendRatio(blendRatio);
         productService.save(product);
+        product.setProductImages(new LinkedList<>());
         images.forEach((value)-> {
-            ProductImage productImage = new ProductImage();
-            productImage.setProduct(product);
-            productImage.setImage(value);
-            productImageService.save(productImage);
+            Image image = imageService.addImage(value);
+            product.getProductImages().add(image);
         });
         try {
             eLiquidService.save(eLiquid);

@@ -6,15 +6,15 @@ CREATE TABLE `product` (
 );;
 
 CREATE TABLE `product_image` (
-    `id` int UNIQUE PRIMARY KEY NOT NULL AUTO_INCREMENT,
     `product_fk` int NOT NULL,
-    `image` varchar(1024) UNIQUE NOT NULL
+    `image_fk` int NOT NULL UNIQUE,
+    PRIMARY KEY (`product_fk`, `image_fk`)
 );;
 
 CREATE TABLE `vapeshop_image` (
-    `id` int UNIQUE PRIMARY KEY NOT NULL AUTO_INCREMENT,
     `vapeshop_fk` int NOT NULL,
-    `image` varchar(1024) UNIQUE NOT NULL
+    `image_fk` int NOT NULL UNIQUE,
+    PRIMARY KEY (`vapeshop_fk`, `image_fk`)
 );;
 
 CREATE TABLE `order` (
@@ -48,7 +48,7 @@ CREATE TABLE `commercial_network` (
     `id` int UNIQUE PRIMARY KEY NOT NULL AUTO_INCREMENT,
     `name` varchar(255) UNIQUE NOT NULL,
     `info` mediumtext,
-    `logo` varchar(1024) UNIQUE
+    `image_fk` int UNIQUE
 );;
 
 CREATE TABLE `vapeshop` (
@@ -68,7 +68,7 @@ CREATE TABLE `country` (
     `id` int UNIQUE PRIMARY KEY NOT NULL AUTO_INCREMENT,
     `name` varchar(255) UNIQUE NOT NULL,
     `phone_prefix` varchar(5) UNIQUE NOT NULL,
-    `currency` varchar(5) UNIQUE NOT NULL
+    `currency_fk` int NOT NULL
 );;
 
 CREATE TABLE `city` (
@@ -88,7 +88,13 @@ CREATE TABLE `phone_number` (
 CREATE TABLE `contact_link` (
     `id` int UNIQUE PRIMARY KEY NOT NULL AUTO_INCREMENT,
     `link` varchar(100),
+    `type_fk` int,
     `vapeshop_fk` int NOT NULL
+);;
+
+CREATE TABLE `contact_link_type` (
+    `id` int UNIQUE PRIMARY KEY NOT NULL AUTO_INCREMENT,
+    `name` varchar(54) NOT NULL UNIQUE
 );;
 
 CREATE TABLE `price` (
@@ -128,7 +134,7 @@ CREATE TABLE `blend_ratio` (
 CREATE TABLE `brand` (
      `id` int UNIQUE PRIMARY KEY AUTO_INCREMENT,
      `name` varchar(255) UNIQUE NOT NULL,
-     `logo` varchar(2048) UNIQUE,
+     `image_fk` int UNIQUE,
      `info` mediumtext
 );;
 
@@ -137,6 +143,33 @@ CREATE TABLE `sale` (
     `percent` int CHECK('percent' > 0 and 'percent' < 100),
     `price_fk` int NOT NULL
 );;
+
+CREATE TABLE `currency` (
+    `id` int UNIQUE PRIMARY KEY AUTO_INCREMENT,
+    `name` varchar(5) UNIQUE NOT NULL
+);;
+
+CREATE TABLE `vapeshop_currency` (
+    `vapeshop_fk` int NOT NULL,
+    `currency_fk` int NOT NULL,
+    PRIMARY KEY (`vapeshop_fk`, `currency_fk`)
+);;
+
+CREATE TABLE `image`
+(
+    `id`  int UNIQUE PRIMARY KEY AUTO_INCREMENT,
+    `url` varchar(512) UNIQUE NOT NULL
+);;
+
+ALTER TABLE `commercial_network` ADD FOREIGN KEY (`image_fk`) REFERENCES `image` (`id`);;
+
+ALTER TABLE `brand` ADD FOREIGN KEY (`image_fk`) REFERENCES `image` (`id`);;
+
+ALTER TABLE `country` ADD FOREIGN KEY (`currency_fk`) REFERENCES `currency` (`id`);;
+
+ALTER TABLE `vapeshop_currency` ADD FOREIGN KEY (`currency_fk`) REFERENCES `currency` (`id`);;
+
+ALTER TABLE `vapeshop_currency` ADD FOREIGN KEY (`vapeshop_fk`) REFERENCES `vapeshop` (`id`);;
 
 ALTER TABLE `product` ADD FOREIGN KEY (`brand_fk`) REFERENCES `brand` (`id`) ON DELETE CASCADE;;
 
@@ -180,11 +213,17 @@ ALTER TABLE `sale` ADD FOREIGN KEY (`price_fk`) REFERENCES `price` (`id`)  ON DE
 
 ALTER TABLE `product_image` ADD FOREIGN KEY (`product_fk`) REFERENCES `product` (`id`) ON DELETE CASCADE;;
 
+ALTER TABLE `product_image` ADD FOREIGN KEY (`image_fk`) REFERENCES `image` (`id`) ON DELETE CASCADE;;
+
 ALTER TABLE `vapeshop_image` ADD FOREIGN KEY (`vapeshop_fk`) REFERENCES `vapeshop` (`id`) ON DELETE CASCADE;;
+
+ALTER TABLE `vapeshop_image` ADD FOREIGN KEY (`image_fk`) REFERENCES `image` (`id`) ON DELETE CASCADE;;
 
 ALTER TABLE `e_liquid_flavor_profile` ADD FOREIGN KEY (`e_liquid_fk`) REFERENCES `e_liquid` (`id`);;
 
 ALTER TABLE `e_liquid_flavor_profile` ADD FOREIGN KEY (`flavor_profile_fk`) REFERENCES `flavor_profile` (`id`);;
+
+ALTER TABLE `contact_link` ADD FOREIGN KEY (`type_fk`) REFERENCES `contact_link_type` (`id`);;
 
 CREATE FUNCTION `GetSumm` (order_price_id int)
     RETURNS int DETERMINISTIC
@@ -284,12 +323,6 @@ CREATE TRIGGER country_first_l_up_insert BEFORE INSERT ON country FOR EACH ROW
 CREATE TRIGGER country_first_l_up_update BEFORE UPDATE ON country FOR EACH ROW
     SET NEW.name = capitalize(NEW.name);;
 
-CREATE TRIGGER vapeshop_image_lower_insert BEFORE INSERT ON vapeshop_image FOR EACH ROW
-    SET NEW.image = LOWER(NEW.image);;
-
-CREATE TRIGGER vapeshop_image_lower_update BEFORE UPDATE ON vapeshop_image FOR EACH ROW
-    SET NEW.image = LOWER(NEW.image);;
-
 CREATE TRIGGER phone_number_validate_insert
     BEFORE INSERT ON phone_number FOR EACH ROW
 BEGIN
@@ -386,24 +419,26 @@ BEGIN
     END IF;
 END;;
 
-CREATE TRIGGER product_img_url_validate_insert
-    BEFORE INSERT ON product_image FOR EACH ROW
+CREATE TRIGGER img_url_validate_insert
+    BEFORE INSERT ON image FOR EACH ROW
 BEGIN
-    IF NEW.image REGEXP 'https?:\/\/(www\.)?[-a-zA-Z0-9@:%._\+~#=]{1,256}\.[a-zA-Z0-9()]{1,6}\b([-a-zA-Z0-9()@:%_\+.~#?&//=]*)'
+    IF NEW.url NOT REGEXP '(https?:\/\/(?:www\.|(?!www))[a-zA-Z0-9][a-zA-Z0-9-]+[a-zA-Z0-9]\.[^\s]{2,}|www\.[a-zA-Z0-9][a-zA-Z0-9-]+[a-zA-Z0-9]\.[^\s]{2,}|https?:\/\/(?:www\.|(?!www))[a-zA-Z0-9]+\.[^\s]{2,}|www\.[a-zA-Z0-9]+\.[^\s]{2,})'
     THEN
         SIGNAL SQLSTATE '45000'
-            SET MESSAGE_TEXT = 'Cannot add or update row: only digits allows';
+            SET MESSAGE_TEXT = 'Cannot add or update row: bad link';
     END IF;
+    SET NEW.url = LOWER(NEW.url);
 END;;
 
-CREATE TRIGGER product_img_url_validate_update
-    BEFORE UPDATE ON product_image FOR EACH ROW
+CREATE TRIGGER img_url_validate_update
+    BEFORE UPDATE ON image FOR EACH ROW
 BEGIN
-    IF NEW.image REGEXP 'https?:\/\/(www\.)?[-a-zA-Z0-9@:%._\+~#=]{1,256}\.[a-zA-Z0-9()]{1,6}\b([-a-zA-Z0-9()@:%_\+.~#?&//=]*)'
+    IF NEW.url NOT REGEXP '(https?:\/\/(?:www\.|(?!www))[a-zA-Z0-9][a-zA-Z0-9-]+[a-zA-Z0-9]\.[^\s]{2,}|www\.[a-zA-Z0-9][a-zA-Z0-9-]+[a-zA-Z0-9]\.[^\s]{2,}|https?:\/\/(?:www\.|(?!www))[a-zA-Z0-9]+\.[^\s]{2,}|www\.[a-zA-Z0-9]+\.[^\s]{2,})'
     THEN
         SIGNAL SQLSTATE '45000'
-            SET MESSAGE_TEXT = 'Cannot add or update row: only digits allows';
+            SET MESSAGE_TEXT = 'Cannot add or update row: bad link';
     END IF;
+    SET NEW.url = LOWER(NEW.url);
 END;;
 
 CREATE PROCEDURE add_vapeshop(IN p_address varchar(30),
@@ -429,7 +464,6 @@ CREATE PROCEDURE update_vapeshop(pvapeshop_id int, IN paddress varchar(30),
                               IN pcity_fk int, IN pcommercial_network_fk int,
                               IN ppickup boolean)
 BEGIN
-    DECLARE laddres_id int;
     DECLARE EXIT HANDLER FOR SQLEXCEPTION
         BEGIN
             GET DIAGNOSTICS CONDITION 1
@@ -437,11 +471,9 @@ BEGIN
             SELECT @p1 as RETURNED_SQLSTATE  , @p2 as MESSAGE_TEXT;
             ROLLBACK;
         END;
-    SET laddres_id = (SELECT address_fk FROM vapeshop WHERE id = pvapeshop_id);
     UPDATE address SET address = paddress, city_fk = pcity_fk
-        WHERE id = laddres_id;
-    UPDATE vapeshop SET address_fk = laddres_id,
-                        commercial_network_fk = pcommercial_network_fk, pickup = ppickup
+        WHERE id = (SELECT address_fk FROM vapeshop WHERE id = pvapeshop_id);
+    UPDATE vapeshop SET commercial_network_fk = pcommercial_network_fk, pickup = ppickup
         WHERE id = pvapeshop_id;
     COMMIT;
 END;;
@@ -463,5 +495,47 @@ BEGIN
         VALUES ((SELECT LAST_INSERT_ID()), p_blend_ratio_fk, p_nicotine, p_salt_nicotine, p_volume,
                 p_mint_menthol);
         SELECT LAST_INSERT_ID() INTO p_eliquid_id;
+    COMMIT;
+END;;
+
+CREATE PROCEDURE update_eliquid(IN p_eliquid_id int, IN p_name varchar(255), IN p_info mediumtext,
+                                IN p_brand_fk int, IN p_blend_ratio_fk int, IN p_nicotine int,
+                                IN p_salt_nicotine int, IN p_volume int, IN p_mint_menthol boolean)
+BEGIN
+    DECLARE EXIT HANDLER FOR SQLEXCEPTION
+        BEGIN
+            GET DIAGNOSTICS CONDITION 1
+                @p1 = RETURNED_SQLSTATE, @p2 = MESSAGE_TEXT;
+            SELECT @p1 as RETURNED_SQLSTATE  , @p2 as MESSAGE_TEXT;
+            ROLLBACK;
+        END;
+    START TRANSACTION;
+    UPDATE product SET name = p_name, info = p_info, brand_fk = p_brand_fk
+        WHERE id = (SELECT product_fk FROM e_liquid WHERE id = p_eliquid_id);
+    UPDATE e_liquid SET blend_ratio_fk = p_blend_ratio_fk, nicotine = p_nicotine,
+                        salt_nicotine = p_salt_nicotine, volume = p_volume,
+                        mint_menthol = p_mint_menthol
+        WHERE  id = p_eliquid_id;
+    COMMIT;
+END;;
+
+CREATE PROCEDURE add_image(IN p_url varchar(512))
+BEGIN
+    DECLARE l_image_id int;
+    DECLARE EXIT HANDLER FOR SQLEXCEPTION
+        BEGIN
+            GET DIAGNOSTICS CONDITION 1
+                @p1 = RETURNED_SQLSTATE, @p2 = MESSAGE_TEXT;
+            SELECT @p1 as RETURNED_SQLSTATE  , @p2 as MESSAGE_TEXT;
+            ROLLBACK;
+        END;
+    SET l_image_id = (SELECT id FROM image WHERE url like p_url);
+    IF l_image_id IS NOT NULL
+    THEN
+        SELECT * FROM image WHERE id = l_image_id;
+    ELSE
+        INSERT INTO image (url) VALUE (p_url);
+        SELECT * FROM image WHERE id = (SELECT LAST_INSERT_ID());
+    end if;
     COMMIT;
 END;;

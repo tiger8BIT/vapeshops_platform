@@ -18,6 +18,8 @@ import java.util.stream.Collectors;
 public class BrandController {
     @Autowired
     private BrandService brandService;
+    @Autowired
+    private ImageService imageService;
 
     @GetMapping("info/brand")
     public String getVapeshopInfoPage(@RequestParam("id") Integer id, Model model){
@@ -34,10 +36,12 @@ public class BrandController {
         Brand brand = new Brand();
         brand.setName(name);
         brand.setInfo(info);
-        brand.setLogo(logo);
         try {
+            Image image = imageService.addImage(logo);
+            brand.setImage(image);
             brandService.save(brand);
         } catch (Exception e) {
+            //imageService.deleteByID(image.getId());
             Throwable couse = e.getCause();
             while(couse.getCause() != null) {
                 couse = couse.getCause();

@@ -12,6 +12,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.LinkedList;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -32,6 +34,10 @@ public class VapeshopController {
     private AddressService addressService;
     @Autowired
     private CommercialNetworkService commercialNetworkService;
+    @Autowired
+    private ImageService imageService;
+    @Autowired
+    private ContactLinkTypeService contactLinkTypeService;
 
     @GetMapping("/regions")
     @ResponseBody public ResponseEntity getRegions(@RequestParam Integer countryId) {
@@ -62,7 +68,8 @@ public class VapeshopController {
         return "add/vapeshop";
     }
     @PostMapping("add/vapeshop/post")
-    public String newVapeshop(@RequestParam List<String> phonenumber,
+    public String newVapeshop(@RequestParam List<String> images,
+                              @RequestParam List<String> phonenumber,
                               @RequestParam String email,
                               @RequestParam String instagram,
                               @RequestParam String vk,
@@ -71,7 +78,7 @@ public class VapeshopController {
                               Model model
     )
     {
-        /*Address address = new Address();
+        Address address = new Address();
         City city = cityService.findByID(cityId.intValue());
         address.setCity(city);
         address.setAddress(addressInf);
@@ -80,13 +87,24 @@ public class VapeshopController {
         Vapeshop vapeshop = new Vapeshop();
         vapeshop.setCommercialNetwork(commercialNetwork);
         vapeshop.setAddress(address);
+        vapeshop.setVepeshopImages(new LinkedList<>());
+        images.forEach((value)-> {
+            Image image = imageService.addImage(value);
+            vapeshop.getVepeshopImages().add(image);
+        });
         vapeshopService.save(vapeshop);
-        if (email != null)
-            contactLinkService.save(new ContactLink(email, vapeshop));
-        if (instagram != null)
-            contactLinkService.save(new ContactLink(instagram, vapeshop));
-        if (vk != null)
-            contactLinkService.save(new ContactLink(vk, vapeshop));
+        if (email != null) {
+            contactLinkService.save(
+                    new ContactLink(email, vapeshop, contactLinkTypeService.findByID(1)));
+        }
+        if (instagram != null) {
+            contactLinkService.save(
+                    new ContactLink(instagram, vapeshop, contactLinkTypeService.findByID(2)));
+        }
+        if (vk != null) {
+            contactLinkService.save(
+                    new ContactLink(vk, vapeshop, contactLinkTypeService.findByID(3)));
+        }
         log.info("{}", phonenumber);
         phonenumber.forEach((v) -> {
             v = v.replaceAll("[+()-]", "");
@@ -102,10 +120,11 @@ public class VapeshopController {
             log.error(couse.getMessage());
             model.addAttribute("error", couse.getMessage());
             return "add/answer/error";
-        }*/
-        int id = vapeshopService.addVapeshop(addressInf, cityId, 2, true);
+        }
+       // int id = vapeshopService.addVapeshop(addressInf, cityId, 2, true);
         model.addAttribute("answer", "Магазин успешно добавлен");
-        model.addAttribute("id", id);
+        model.addAttribute("btntext", "Страница магазина");
+        model.addAttribute("id", vapeshop.getId());
         model.addAttribute("path", "../../info/vapeshop");
         return "add/answer/success";
     }

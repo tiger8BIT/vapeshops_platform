@@ -31,8 +31,6 @@ public class Country implements Serializable {
 
 	private String phonePrefix;
 
-	private String currency;
-
 	@ToString.Exclude
 	@OneToMany(mappedBy="country")
 	private List<City> cities;
@@ -40,4 +38,8 @@ public class Country implements Serializable {
 	@ToString.Exclude
 	@OneToMany(mappedBy="country")
 	private List<PhoneNumber> phoneNumbers;
+
+	@ManyToOne
+	@JoinColumn(name="currency_fk")
+	private Currency currency;
 }

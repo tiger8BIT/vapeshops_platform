@@ -33,8 +33,13 @@ public class ContactLink implements Serializable {
 	@JoinColumn(name="vapeshop_fk")
 	private Vapeshop vapeshop;
 
-	public ContactLink(String link, Vapeshop vapeshop) {
+	@ManyToOne
+	@JoinColumn(name="type_fk")
+	private ContactLinkType type;
+
+	public ContactLink(String link, Vapeshop vapeshop, ContactLinkType type) {
 		this.link = link;
 		this.vapeshop = vapeshop;
+		this.type = type;
 	}
 }

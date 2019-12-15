@@ -43,9 +43,10 @@ public class Product implements Serializable {
 	@JoinColumn(name="brand_fk")
 	private Brand brand;
 
-
-
-	@ToString.Exclude
-	@OneToMany(mappedBy="product")
-	private List<ProductImage> productImages;
+	@ManyToMany
+	@JoinTable(
+			name = "product_image",
+			joinColumns = @JoinColumn(name = "product_fk"),
+			inverseJoinColumns = @JoinColumn(name = "image_fk"))
+	private List<Image> productImages;
 }

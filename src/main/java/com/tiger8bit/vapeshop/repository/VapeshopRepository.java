@@ -6,7 +6,8 @@ import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
 @Repository
-public interface VapeshopRepository extends CrudRepository<Vapeshop, Integer> {
+public interface VapeshopRepository extends CrudRepository<Vapeshop, Integer>, VapeshopProcedures {
+    @Override
     @Procedure(name = "add_vapeshop")
     Integer addVapeshop(@Param("p_address") String p_address,
                         @Param("p_city_fk") Integer p_city_fk,

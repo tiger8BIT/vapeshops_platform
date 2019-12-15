@@ -77,11 +77,21 @@ public class Vapeshop implements Serializable {
 
 	@ToString.Exclude
 	@OneToMany(mappedBy="vapeshop")
-	private List<VapeshopImage> vapeshopImages;
-
-	@ToString.Exclude
-	@OneToMany(mappedBy="vapeshop")
 	private List<Price> prices;
+
+	@ManyToMany
+	@JoinTable(
+			name = "vapeshop_currency",
+			joinColumns = @JoinColumn(name = "vapeshop_fk"),
+			inverseJoinColumns = @JoinColumn(name = "currency_fk"))
+	private List<Currency> vepeshopCurrencies;
+
+	@ManyToMany
+	@JoinTable(
+			name = "vapeshop_image",
+			joinColumns = @JoinColumn(name = "vapeshop_fk"),
+			inverseJoinColumns = @JoinColumn(name = "image_fk"))
+	private List<Image> vepeshopImages;
 
 	boolean pickup;
 }

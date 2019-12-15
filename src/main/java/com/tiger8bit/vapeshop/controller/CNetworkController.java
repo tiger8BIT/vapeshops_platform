@@ -19,32 +19,48 @@ public class CNetworkController {
     @Autowired
     private VapeshopService vapeshopService;
     @Autowired
+    private ImageService imageService;
+    @Autowired
     private CommercialNetworkService commercialNetworkService;
 
     @GetMapping("info/cnetwork")
-    public String getVapeshopInfoPage(@RequestParam("id") Integer id, Model model){
+    public String getCnetworkInfoPage(@RequestParam("id") Integer id, Model model){
         CommercialNetwork commercialNetwork = commercialNetworkService.findByID(id);
         model.addAttribute("cnetwork", commercialNetwork);
         return "info/cnetwork";
     }
+
+    @GetMapping("update/cnetwork")
+    public String getUpdateVapeshopPage(@RequestParam("id") Integer id, Model model){
+        CommercialNetwork commercialNetwork = commercialNetworkService.findByID(id);
+        model.addAttribute("cnetwork", commercialNetwork);
+        model.addAttribute("btntext", "Изменить");
+        return "add/cnetwork";
+    }
+
     @GetMapping("add/cnetwork")
     public String getVapeshopAddingPage(Model model){
+        model.addAttribute("btntext", "Добавить");
         return "add/cnetwork";
     }
     @PostMapping("add/cnetwork/post")
-    public String newVapeshop(@RequestParam String logo,
+    public String newVapeshop(@RequestParam Integer id,
+                              @RequestParam String logo,
                               @RequestParam String name,
                               @RequestParam String info,
                               Model model
     )
     {
-        CommercialNetwork commercialNetwork = new CommercialNetwork();
-        commercialNetwork.setLogo(logo);
+        CommercialNetwork commercialNetwork =
+                id == null ? new CommercialNetwork() : commercialNetworkService.findByID(id);
         commercialNetwork.setName(name);
         commercialNetwork.setInfo(info);
         try {
+            Image image = imageService.addImage(logo);
+            commercialNetwork.setImage(image);
             commercialNetworkService.save(commercialNetwork);
         } catch (Exception e) {
+            //imageService.deleteByID(image.getId());
             Throwable couse = e.getCause();
             while(couse.getCause() != null) {
                 couse = couse.getCause();

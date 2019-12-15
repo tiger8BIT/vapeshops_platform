@@ -28,8 +28,6 @@ public class CommercialNetwork implements Serializable {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Integer id;
 
-	private String logo;
-
 	private String info;
 
 	private String name;
@@ -37,4 +35,8 @@ public class CommercialNetwork implements Serializable {
 	@ToString.Exclude
 	@OneToMany(mappedBy="commercialNetwork")
 	private List<Vapeshop> vapeshops;
+
+	@ManyToOne
+	@JoinColumn(name="image_fk")
+	private Image image;
 }
