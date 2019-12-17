@@ -1,0 +1,21 @@
+.list-group-item {
+    display: flex;
+    opacity: 0.8;
+}
+.list-group-item .i-container {
+    display: inline-flex;
+    margin-right: 10px;
+}
+
+.list-group-item, .list-group-item i {
+    color: black;
+}
+
+#log-out-action, #log-out-action i {
+    color: red;
+}
+
+.list-group-item:hover{
+    color: black;
+    opacity: 1;
+}

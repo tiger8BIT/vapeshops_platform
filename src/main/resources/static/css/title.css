@@ -1,0 +1,31 @@
+.bordered-container {
+    display: inline-block;
+    margin: 5px 5px;
+    border-style: solid;
+    border-width: 2px;
+    border-color: gray;
+}
+.logo {
+    width: 50px;
+    height: 50px;
+}
+
+label {
+    font-size: 50px;
+    margin: 0;
+}
+
+.row-container{
+    display: flex;
+    flex-flow: row;
+    align-items: center;
+}
+
+.title-container {
+    justify-content: space-between;
+    background-color: lightgray;
+}
+
+#log-out-btn, #log-out-btn i {
+    color: coral;
+}

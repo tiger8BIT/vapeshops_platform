@@ -29,6 +29,13 @@ public class ELiquidController {
     @Autowired
     private BlendRatioService blendRatioService;
 
+    @GetMapping("/eliquids")
+    public String getEliquidsPage(Model model){
+        List<ELiquid> eLiquids = eLiquidService.findAll();
+        model.addAttribute("eliquids", eLiquids);
+        return "/eliquids";
+    }
+
     @GetMapping("info/eliquid")
     public String getVapeshopInfoPage(@RequestParam("id") Integer id, Model model){
         ELiquid eLiquid = eLiquidService.findByID(id);

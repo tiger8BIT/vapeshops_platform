@@ -30,6 +30,13 @@ public class CNetworkController {
         return "info/cnetwork";
     }
 
+    @GetMapping("private-office/cnetwork")
+    public String getPersonalOfficePage(@RequestParam("id") Integer id, Model model){
+        CommercialNetwork commercialNetwork = commercialNetworkService.findByID(id);
+        model.addAttribute("cnetwork", commercialNetwork);
+        return "private-office/cnetwork";
+    }
+
     @GetMapping("update/cnetwork")
     public String getUpdateVapeshopPage(@RequestParam("id") Integer id, Model model){
         CommercialNetwork commercialNetwork = commercialNetworkService.findByID(id);

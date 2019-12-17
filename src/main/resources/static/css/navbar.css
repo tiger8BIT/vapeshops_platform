@@ -1,0 +1,57 @@
+.search {
+    flex-grow: 1;
+}
+
+.form-control {
+    opacity: 0.8;
+}
+
+.form-control:focus {
+    opacity: 1;
+}
+
+.navbar-btn {
+    height: 100%;
+    opacity: 0.8;
+    padding: 0 10px;
+}
+
+.navbar-btn-dark, .navbar-btn-dark i, .navbar-btn-dark:hover {
+    color: white;
+}
+
+.navbar-btn:hover {
+    background-color: transparent;
+    border-color: transparent;
+    opacity: 1;
+}
+
+.i-container {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.row-container-end {
+    width: 100%;
+    display: flex;
+    flex-flow: row;
+    align-items: center;
+    justify-content: flex-end;
+}
+
+.prod {
+    display: flex;
+    flex-wrap: wrap;
+    min-width: 50%;
+}
+
+.prod .card {
+    cursor: pointer;
+    width: 25%;
+    min-width: 12em;
+}
+
+.prod .card:hover {
+    background-color: whitesmoke;
+}

@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="ru" xmlns:th="http://www.thymeleaf.org">
+<body>
+<div th:fragment="navbar">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+    <link rel="stylesheet" th:href="@{/css/form.css}"/>
+    <link rel="stylesheet" th:href="@{/css/navbar.css}"/>
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+        <a class="navbar-brand" href="#">Vapeshop.ru</a>
+        <form class="form-inline search mr-sm-2">
+            <div class="input-group search">
+                <input class="form-control search" type="search" placeholder="Search" aria-label="Search">
+                <div class="input-group-append">
+                    <button class="btn btn-outline-success" type="submit">Поиск</button>
+                </div>
+            </div>
+        </form>
+        <button data-toggle="modal" data-target="#singInModal" type="button" class="btn navbar-btn navbar-btn-dark" id="sing-in-btn">
+            <div class="i-container"><i class="material-icons">face</i></div>
+            Войти
+        </button>
+    </nav>
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+        <ul class="navbar-nav mr-auto mt-2 mt-lg-0" style="margin-left: -.5rem;">
+            <li class="nav-item">
+                <a class="nav-link" href="#">Жидкости</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="#">Магазины</a>
+            </li>
+        </ul>
+    </nav>
+    <div th:include="sing-in :: sing-in"></div>
+    <script
+            src="https://code.jquery.com/jquery-3.4.1.js"
+            integrity="sha256-WpOohJOqMqqyKL9FccASB9O0KwACQJpFTUBLTYOVvVU="
+            crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js" integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous"></script>
+    <script type="text/javascript" th:src="@{/js/image.js}"></script>
+</div>
+</body>
+</html>
