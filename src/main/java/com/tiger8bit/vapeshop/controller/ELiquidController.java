@@ -11,6 +11,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.Collections;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -29,10 +30,36 @@ public class ELiquidController {
     @Autowired
     private BlendRatioService blendRatioService;
 
+    @GetMapping("/search")
+    public String search(@RequestParam("search") String search, @RequestParam("page") Integer page, Model model){
+        int count = 1;
+        int endIndex = count * page;
+        int startIndex = endIndex - count;
+        List<Product> products = productService.findAll();
+
+        List<Product> res = products.stream()
+                .filter(i -> i.getName().contains(search) || i.getBrand().getName().contains(search))
+                .collect(Collectors.toList());
+        log.info("{}", products);
+        log.info("{}", search);
+        log.info("{}", res);
+        if(endIndex > res.size()) endIndex = res.size();
+        model.addAttribute("products", res.subList(startIndex, endIndex));
+        model.addAttribute("search", search);
+        model.addAttribute("pamount", res.size() <= count ? 1 : 2);
+        model.addAttribute("prev", Math.max(page - 1, 1));
+        model.addAttribute("next", Math.min(page + 1, res.size() <= count ? 1 : 2 ));
+        return "/search";
+    }
+
     @GetMapping("/eliquids")
-    public String getEliquidsPage(Model model){
+    public String getEliquidsPage(@RequestParam("page") Integer page, Model model){
+        int endIndex = 1 * page;
+        int startIndex = endIndex - 1;
         List<ELiquid> eLiquids = eLiquidService.findAll();
-        model.addAttribute("eliquids", eLiquids);
+        model.addAttribute("eliquids", eLiquids.subList(startIndex, endIndex));
+        model.addAttribute("prev", Math.max(page - 1, 1));
+        model.addAttribute("next", Math.min(page + 1, eLiquids.size() <= 1 ? 1 : 2 ));
         return "/eliquids";
     }
 
@@ -54,8 +81,7 @@ public class ELiquidController {
                               @RequestParam String info,
                               @RequestParam Integer brandId,
                               @RequestParam Integer volume,
-                              @RequestParam Integer nicotine,
-                              @RequestParam Integer saltNicotine,
+                              @RequestParam String n_type,
                               @RequestParam Integer blendRatioId,
                               Model model
     )
@@ -68,14 +94,14 @@ public class ELiquidController {
         ELiquid eLiquid = new ELiquid();
         eLiquid.setProduct(product);
         eLiquid.setVolume(volume);
-        eLiquid.setNicotine(nicotine);
-        eLiquid.setSaltNicotine(saltNicotine);
         BlendRatio blendRatio = blendRatioService.findByID(blendRatioId);
         eLiquid.setBlendRatio(blendRatio);
         productService.save(product);
         product.setProductImages(new LinkedList<>());
         images.forEach((value)-> {
-            Image image = imageService.addImage(value);
+            Image image = new Image();
+            image.setUrl(value);
+            imageService.save(image);
             product.getProductImages().add(image);
         });
         try {

@@ -6,78 +6,70 @@
     <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
     <link rel="stylesheet" th:href="@{/css/navbar.css}"/>
+    <link rel="stylesheet" th:href="@{/css/products.css}"/>
     <div th:include="navbar :: navbar"></div>
+    <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+    <link rel="stylesheet" href="/resources/demos/style.css">
+    <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+    <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+    <script>
+        $( function() {
+            $( "#slider-range" ).slider({
+                range: true,
+                min: 0,
+                max: 500,
+                values: [ 75, 300 ],
+                slide: function( event, ui ) {
+                    $( "#amount" ).val( "$" + ui.values[ 0 ] + " - $" + ui.values[ 1 ] );
+                }
+            });
+            $( "#amount" ).val( "$" + $( "#slider-range" ).slider( "values", 0 ) +
+                " - $" + $( "#slider-range" ).slider( "values", 1 ) );
+        } );
+    </script>
 </head>
 <body>
-<div class="prod">
-    <div class="card">
-        <img class="card-img-top" src="https://cdn.shopify.com/s/files/1/0280/7756/products/Halcyon_-_100_Dragon_Chi_FDA_Black_Cap_2000x.jpg?v=1552542840" alt="Card image cap">
-        <div class="card-body">
-            <p class="card-text">
-                12.21<br>
-                Boshki/Aeqweqweqweqweqweqwewqeqwe
-            </p>
+<div class=prod-container>
+    <div class="filter">
+        <div class="row-container">
+            <p>Price range:</p>
+            <input type="text" id="amount" readonly style="border:0; color:#f6931f; font-weight:bold;">
         </div>
+        <div id="slider-range"></div>
     </div>
-    <div class="card">
-        <img class="card-img-top" src="https://cdn.shopify.com/s/files/1/0280/7756/products/Halcyon_-_100_Dragon_Chi_FDA_Black_Cap_2000x.jpg?v=1552542840" alt="Card image cap">
-        <div class="card-body">
-            <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
-        </div>
+    <div class="prod-page">
+    <div class="prod">
+        <tr th:each="eliquid: ${eliquids}">
+            <div class="card">
+                <img class="card-img-top" th:src="${eliquid.getProduct().getProductImages()?.get(0)?.getUrl()}" alt="Card image cap">
+                <div class="card-body">
+                    <p class="card-text" th:text="${eliquid.getProduct().getName()} + ' BY ' +  ${eliquid.getProduct().getBrand().getName()}">
+                    </p>
+                    <p class="card-text price" th:if="${eliquid.getProduct().getMinPrice()} != -1"
+                       th:text="'ОТ ' + ${eliquid.getProduct().getMinPrice()} + ' ДО ' +  ${eliquid.getProduct().getMaxPrice()}"
+                    ></p>
+                    <p class="card-text no-price" th:if="${eliquid.getProduct().getMinPrice()} == -1"
+                    >НЕТ В ПРОДАЖЕ</p>
+                </div>
+            </div>
+        </tr>
     </div>
-    <div class="card">
-        <img class="card-img-top" src="https://cdn.shopify.com/s/files/1/0280/7756/products/Halcyon_-_100_Dragon_Chi_FDA_Black_Cap_2000x.jpg?v=1552542840" alt="Card image cap">
-        <div class="card-body">
-            <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
-        </div>
-    </div>
-    <div class="card">
-        <img class="card-img-top" src="https://cdn.shopify.com/s/files/1/0280/7756/products/Halcyon_-_100_Dragon_Chi_FDA_Black_Cap_2000x.jpg?v=1552542840" alt="Card image cap">
-        <div class="card-body">
-            <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
-        </div>
-    </div>
-    <div class="card">
-        <img class="card-img-top" src="https://cdn.shopify.com/s/files/1/0280/7756/products/Halcyon_-_100_Dragon_Chi_FDA_Black_Cap_2000x.jpg?v=1552542840" alt="Card image cap">
-        <div class="card-body">
-            <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
-        </div>
-    </div>
-    <div class="card">
-        <img class="card-img-top" src="https://cdn.shopify.com/s/files/1/0280/7756/products/Halcyon_-_100_Dragon_Chi_FDA_Black_Cap_2000x.jpg?v=1552542840" alt="Card image cap">
-        <div class="card-body">
-            <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
-        </div>
-    </div>
-    <div class="card">
-        <img class="card-img-top" src="https://cdn.shopify.com/s/files/1/0280/7756/products/Halcyon_-_100_Dragon_Chi_FDA_Black_Cap_2000x.jpg?v=1552542840" alt="Card image cap">
-        <div class="card-body">
-            <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
-        </div>
-    </div>
-    <div class="card">
-        <img class="card-img-top" src="https://cdn.shopify.com/s/files/1/0280/7756/products/Halcyon_-_100_Dragon_Chi_FDA_Black_Cap_2000x.jpg?v=1552542840" alt="Card image cap">
-        <div class="card-body">
-            <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
-        </div>
-    </div>
-    <div class="card">
-        <img class="card-img-top" src="https://cdn.shopify.com/s/files/1/0280/7756/products/Halcyon_-_100_Dragon_Chi_FDA_Black_Cap_2000x.jpg?v=1552542840" alt="Card image cap">
-        <div class="card-body">
-            <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
-        </div>
-    </div>
-    <div class="card">
-        <img class="card-img-top" src="https://cdn.shopify.com/s/files/1/0280/7756/products/Halcyon_-_100_Dragon_Chi_FDA_Black_Cap_2000x.jpg?v=1552542840" alt="Card image cap">
-        <div class="card-body">
-            <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
-        </div>
-    </div>
-    <div class="card">
-        <img class="card-img-top" src="https://cdn.shopify.com/s/files/1/0280/7756/products/Halcyon_-_100_Dragon_Chi_FDA_Black_Cap_2000x.jpg?v=1552542840" alt="Card image cap">
-        <div class="card-body">
-            <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
-        </div>
+        <nav aria-label="Page navigation example" class="pages">
+            <ul class="pagination">
+                <li class="page-item">
+                    <a class="page-link" th:href="@{/eliquids(page=${next})}" aria-label="Previous">
+                        <span aria-hidden="true">&laquo;</span>
+                    </a>
+                </li>
+                <li class="page-item"><a class="page-link" href="?page=1">1</a></li>
+                <li class="page-item"><a class="page-link" href="?page=2">2</a></li>
+                <li class="page-item">
+                    <a class="page-link" th:href="@{/eliquids(page=${next})}" aria-label="Next">
+                        <span aria-hidden="true">&raquo;</span>
+                    </a>
+                </li>
+            </ul>
+        </nav>
     </div>
 </div>
 </body>

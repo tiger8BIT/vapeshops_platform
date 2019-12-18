@@ -36,8 +36,10 @@ public class BrandController {
         Brand brand = new Brand();
         brand.setName(name);
         brand.setInfo(info);
+        Image image = new Image();
+        image.setUrl(logo);
         try {
-            Image image = imageService.addImage(logo);
+            imageService.save(image);
             brand.setImage(image);
             brandService.save(brand);
         } catch (Exception e) {

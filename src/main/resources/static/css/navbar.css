@@ -39,19 +39,3 @@
     align-items: center;
     justify-content: flex-end;
 }
-
-.prod {
-    display: flex;
-    flex-wrap: wrap;
-    min-width: 50%;
-}
-
-.prod .card {
-    cursor: pointer;
-    width: 25%;
-    min-width: 12em;
-}
-
-.prod .card:hover {
-    background-color: whitesmoke;
-}

@@ -89,7 +89,9 @@ public class VapeshopController {
         vapeshop.setAddress(address);
         vapeshop.setVepeshopImages(new LinkedList<>());
         images.forEach((value)-> {
-            Image image = imageService.addImage(value);
+            Image image = new Image();
+            image.setUrl(value);
+            imageService.save(image);
             vapeshop.getVepeshopImages().add(image);
         });
         vapeshopService.save(vapeshop);

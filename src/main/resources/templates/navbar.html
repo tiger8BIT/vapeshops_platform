@@ -7,9 +7,10 @@
     <link rel="stylesheet" th:href="@{/css/navbar.css}"/>
     <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
         <a class="navbar-brand" href="#">Vapeshop.ru</a>
-        <form class="form-inline search mr-sm-2">
+        <form th:action="@{/search}" class="form-inline search mr-sm-2">
             <div class="input-group search">
-                <input class="form-control search" type="search" placeholder="Search" aria-label="Search">
+                <input class="form-control search" type="search" th:name="search" placeholder="Search" aria-label="Search">
+                <input type="hidden" th:value="1" th:name="page"/>
                 <div class="input-group-append">
                     <button class="btn btn-outline-success" type="submit">Поиск</button>
                 </div>

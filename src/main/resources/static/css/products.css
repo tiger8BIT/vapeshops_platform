@@ -1,0 +1,67 @@
+.prod {
+    display: flex;
+    flex-wrap: wrap;
+    min-width: 50%;
+}
+
+.prod .card {
+    cursor: pointer;
+    width: 33%;
+    min-width: 12em;
+    max-height: 30em;
+}
+
+.prod .card:hover {
+    background-color: whitesmoke;
+}
+
+.card-body p {
+    margin: 0 0;
+    text-align: center;
+}
+
+.price {
+    color: green;
+}
+
+.no-price {
+    color: red;
+}
+
+body {
+    width: 100%;
+    height: 100%;
+    position: absolute;
+}
+
+.prod-container {
+    display: flex;
+    width: 100%;
+    height: 100%;
+    flex-flow: row;
+}
+
+.filter {
+    width: 270px;
+    margin: 0 10px;
+    display: flex;
+    flex-flow: column;
+    overflow-y: auto;
+}
+
+.filter p {
+    margin: 0 0;
+    white-space: nowrap;
+}
+
+.pages {
+    display: flex;
+    justify-content: center;
+    margin: 20px 0;
+}
+
+.prod-page {
+    display: flex;
+    flex-grow: 1;
+    flex-flow: column;
+}

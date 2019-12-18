@@ -7,7 +7,9 @@ import org.hibernate.annotations.GenericGenerator;
 
 import java.io.Serializable;
 import javax.persistence.*;
+import java.util.Collections;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import static javax.persistence.GenerationType.SEQUENCE;
 
@@ -49,4 +51,21 @@ public class Product implements Serializable {
 			joinColumns = @JoinColumn(name = "product_fk"),
 			inverseJoinColumns = @JoinColumn(name = "image_fk"))
 	private List<Image> productImages;
+
+	public double getMinPrice(){
+		if (prices == null || prices.isEmpty()) return -1;
+		productImages.get(0);
+		return Collections.min(
+				prices.stream().map((v) -> v.getValue() * (!v.getSales().isEmpty() ?
+						Collections.max(v.getSales().stream().map(Sale::getPercent).collect(Collectors.toList()))
+						: 1)).collect(Collectors.toList()));
+	}
+
+	public double getMaxPrice(){
+		if (prices == null || prices.isEmpty()) return -1;
+		return Collections.max(
+				prices.stream().map((v) -> v.getValue() * (!v.getSales().isEmpty() ?
+						Collections.max(v.getSales().stream().map(Sale::getPercent).collect(Collectors.toList()))
+						: 1)).collect(Collectors.toList()));
+	}
 }

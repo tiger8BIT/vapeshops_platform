@@ -31,11 +31,6 @@ public class ELiquid implements Serializable {
 	@Column(name="mint_menthol")
 	private Boolean mintMenthol;
 
-	private Integer nicotine;
-
-	@Column(name="salt_nicotine")
-	private Integer saltNicotine;
-
 	private Integer volume;
 
 	@ManyToOne
@@ -49,4 +44,8 @@ public class ELiquid implements Serializable {
 	@ToString.Exclude
 	@OneToMany(mappedBy="ELiquid")
 	private List<ELiquidFlavorProfile> ELiquidFlavorProfiles;
+
+	@ToString.Exclude
+	@OneToMany(mappedBy="eLiquid")
+	private List<Nicotine> nicotines;
 }

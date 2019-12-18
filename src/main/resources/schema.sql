@@ -108,10 +108,15 @@ CREATE TABLE `e_liquid` (
     `id` int UNIQUE PRIMARY KEY NOT NULL AUTO_INCREMENT,
     `product_fk` int NOT NULL UNIQUE,
     `blend_ratio_fk` int NOT NULL,
-    `nicotine` int CHECK(`nicotine` >= 0),
-    `salt_nicotine` int  CHECK(`salt_nicotine` >= 0),
     `volume` int  CHECK(`volume` > 0),
     `mint_menthol` boolean
+);;
+
+CREATE TABLE `nicotine` (
+     `id` int UNIQUE PRIMARY KEY NOT NULL AUTO_INCREMENT,
+     `value` int NOT NULL CHECK(`value` >= 0),
+     `nicotine_type` varchar(10) NOT NULL CHECK (`nicotine_type` in ('SALT', 'DEFAULT', 'GIBRID')) ,
+     `eliquid_fk` int NOT NULL
 );;
 
 CREATE TABLE `e_liquid_flavor_profile` (
@@ -140,8 +145,15 @@ CREATE TABLE `brand` (
 
 CREATE TABLE `sale` (
     `id` int UNIQUE PRIMARY KEY AUTO_INCREMENT,
-    `percent` int CHECK('percent' > 0 and 'percent' < 100),
-    `price_fk` int NOT NULL
+    `percent` int NOT NULL CHECK('percent' > 0 and 'percent' < 100),
+    `vapeshop_fk` int NOT NULL,
+    `info` mediumtext
+);;
+
+CREATE TABLE `price_sale` (
+      `price_fk` int NOT NULL,
+      `sale_fk` int NOT NULL UNIQUE,
+      PRIMARY KEY (`price_fk`, `sale_fk`)
 );;
 
 CREATE TABLE `currency` (
@@ -160,6 +172,14 @@ CREATE TABLE `image`
     `id`  int UNIQUE PRIMARY KEY AUTO_INCREMENT,
     `url` varchar(512) UNIQUE NOT NULL
 );;
+
+ALTER TABLE `nicotine` ADD FOREIGN KEY (`eliquid_fk`) REFERENCES `e_liquid` (`id`);;
+
+ALTER TABLE `price_sale` ADD FOREIGN KEY (`price_fk`) REFERENCES `price` (`id`);;
+
+ALTER TABLE `price_sale` ADD FOREIGN KEY (`sale_fk`) REFERENCES `sale` (`id`);;
+
+ALTER TABLE `sale` ADD FOREIGN KEY (`vapeshop_fk`) REFERENCES `vapeshop` (`id`);;
 
 ALTER TABLE `commercial_network` ADD FOREIGN KEY (`image_fk`) REFERENCES `image` (`id`);;
 
@@ -208,8 +228,6 @@ ALTER TABLE `price` ADD FOREIGN KEY (`product_fk`) REFERENCES `product` (`id`) O
 ALTER TABLE `e_liquid` ADD FOREIGN KEY (`product_fk`) REFERENCES `product` (`id`) ON DELETE CASCADE;;
 
 ALTER TABLE `e_liquid` ADD FOREIGN KEY (`blend_ratio_fk`) REFERENCES `blend_ratio` (`id`);;
-
-ALTER TABLE `sale` ADD FOREIGN KEY (`price_fk`) REFERENCES `price` (`id`)  ON DELETE CASCADE;;
 
 ALTER TABLE `product_image` ADD FOREIGN KEY (`product_fk`) REFERENCES `product` (`id`) ON DELETE CASCADE;;
 
@@ -427,7 +445,6 @@ BEGIN
         SIGNAL SQLSTATE '45000'
             SET MESSAGE_TEXT = 'Cannot add or update row: bad link';
     END IF;
-    SET NEW.url = LOWER(NEW.url);
 END;;
 
 CREATE TRIGGER img_url_validate_update
@@ -438,7 +455,6 @@ BEGIN
         SIGNAL SQLSTATE '45000'
             SET MESSAGE_TEXT = 'Cannot add or update row: bad link';
     END IF;
-    SET NEW.url = LOWER(NEW.url);
 END;;
 
 CREATE PROCEDURE add_vapeshop(IN p_address varchar(30),
@@ -479,8 +495,8 @@ BEGIN
 END;;
 
 CREATE PROCEDURE add_eliquid(IN p_name varchar(255), IN p_info mediumtext, IN p_brand_fk int,
-                             IN p_blend_ratio_fk int, IN p_nicotine int, IN p_salt_nicotine int,
-                             IN p_volume int, IN p_mint_menthol boolean, OUT p_eliquid_id int)
+                             IN p_blend_ratio_fk int, IN p_volume int,
+                             IN p_mint_menthol boolean, OUT p_eliquid_id int)
 BEGIN
     DECLARE EXIT HANDLER FOR SQLEXCEPTION
         BEGIN
@@ -491,16 +507,16 @@ BEGIN
         END;
     START TRANSACTION;
     INSERT INTO product (name, info, brand_fk) VALUES (p_name, p_info, p_brand_fk);
-    INSERT INTO e_liquid (product_fk, blend_ratio_fk, nicotine, salt_nicotine, volume, mint_menthol)
-        VALUES ((SELECT LAST_INSERT_ID()), p_blend_ratio_fk, p_nicotine, p_salt_nicotine, p_volume,
+    INSERT INTO e_liquid (product_fk, blend_ratio_fk, volume, mint_menthol)
+        VALUES ((SELECT LAST_INSERT_ID()), p_blend_ratio_fk, p_volume,
                 p_mint_menthol);
         SELECT LAST_INSERT_ID() INTO p_eliquid_id;
     COMMIT;
 END;;
 
 CREATE PROCEDURE update_eliquid(IN p_eliquid_id int, IN p_name varchar(255), IN p_info mediumtext,
-                                IN p_brand_fk int, IN p_blend_ratio_fk int, IN p_nicotine int,
-                                IN p_salt_nicotine int, IN p_volume int, IN p_mint_menthol boolean)
+                                IN p_brand_fk int, IN p_blend_ratio_fk int, IN p_volume int,
+                                 IN p_mint_menthol boolean)
 BEGIN
     DECLARE EXIT HANDLER FOR SQLEXCEPTION
         BEGIN
@@ -512,8 +528,7 @@ BEGIN
     START TRANSACTION;
     UPDATE product SET name = p_name, info = p_info, brand_fk = p_brand_fk
         WHERE id = (SELECT product_fk FROM e_liquid WHERE id = p_eliquid_id);
-    UPDATE e_liquid SET blend_ratio_fk = p_blend_ratio_fk, nicotine = p_nicotine,
-                        salt_nicotine = p_salt_nicotine, volume = p_volume,
+    UPDATE e_liquid SET blend_ratio_fk = p_blend_ratio_fk, volume = p_volume,
                         mint_menthol = p_mint_menthol
         WHERE  id = p_eliquid_id;
     COMMIT;

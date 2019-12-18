@@ -62,8 +62,10 @@ public class CNetworkController {
                 id == null ? new CommercialNetwork() : commercialNetworkService.findByID(id);
         commercialNetwork.setName(name);
         commercialNetwork.setInfo(info);
+        Image image = new Image();
+        image.setUrl(logo);
         try {
-            Image image = imageService.addImage(logo);
+            imageService.save(image);
             commercialNetwork.setImage(image);
             commercialNetworkService.save(commercialNetwork);
         } catch (Exception e) {

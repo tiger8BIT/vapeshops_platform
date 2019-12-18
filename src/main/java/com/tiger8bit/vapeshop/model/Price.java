@@ -38,7 +38,11 @@ public class Price implements Serializable {
 	private Vapeshop vapeshop;
 
 	@ToString.Exclude
-	@OneToMany(mappedBy="price")
+	@ManyToMany
+	@JoinTable(
+			name = "price_sale",
+			joinColumns = @JoinColumn(name = "price_fk"),
+			inverseJoinColumns = @JoinColumn(name = "sale_fk"))
 	private List<Sale> sales;
 
 	@ToString.Exclude

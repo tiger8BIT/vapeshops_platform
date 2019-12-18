@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="ru" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Добавление магазина</title>
+    <link rel="stylesheet" th:href="@{/css/form.css}"/>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+    <link rel="stylesheet" th:href="@{/css/navbar.css}"/>
+    <link rel="stylesheet" th:href="@{/css/products.css}"/>
+    <div th:include="navbar :: navbar"></div>
+</head>
+<body>
+    <div class="prod-page">
+        <div class="prod">
+            <tr th:each="prod: ${products}">
+                <div class="card" style="width: 25%;">
+                    <img class="card-img-top" th:src="${prod.getProductImages()?.get(0)?.getUrl()}" alt="Card image cap">
+                    <div class="card-body">
+                        <p class="card-text" th:text="${prod.getName()} + ' BY ' +  ${prod.getBrand().getName()}">
+                        </p>
+                        <p class="card-text price" th:if="${prod.getMinPrice()} != -1"
+                           th:text="'ОТ ' + ${prod.getMinPrice()} + ' ДО ' +  ${prod.getMaxPrice()}"
+                        ></p>
+                        <p class="card-text no-price" th:if="${prod.getMinPrice()} == -1"
+                        >НЕТ В ПРОДАЖЕ</p>
+                    </div>
+                </div>
+            </tr>
+        </div>
+        <nav aria-label="Page navigation example" class="pages">
+            <ul class="pagination">
+                <li class="page-item">
+                    <a class="page-link" th:href="@{/search(search=${search},page=${prev})}" aria-label="Previous">
+                        <span aria-hidden="true">&laquo;</span>
+                    </a>
+                </li>
+                <li class="page-item"><a class="page-link" th:href="@{/search(search=${search},page=1)}">1</a></li>
+                <li th:if="${pamount} >= 2" class="page-item"><a class="page-link" th:href="@{/search(search=${search},page=2)}">2</a></li>
+                <li class="page-item">
+                    <a class="page-link" th:href="@{/search(search=${search},page=${next})}" aria-label="Next">
+                        <span aria-hidden="true">&raquo;</span>
+                    </a>
+                </li>
+            </ul>
+        </nav>
+    </div>
+</body>
+</html>

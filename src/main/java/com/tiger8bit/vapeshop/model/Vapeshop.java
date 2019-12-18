@@ -79,6 +79,10 @@ public class Vapeshop implements Serializable {
 	@OneToMany(mappedBy="vapeshop")
 	private List<Price> prices;
 
+	@ToString.Exclude
+	@OneToMany(mappedBy="vapeshop")
+	private List<Sale> sales;
+
 	@ManyToMany
 	@JoinTable(
 			name = "vapeshop_currency",

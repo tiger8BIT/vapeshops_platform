@@ -5,6 +5,7 @@ import lombok.NoArgsConstructor;
 import org.hibernate.annotations.GenericGenerator;
 
 import java.io.Serializable;
+import java.util.List;
 import javax.persistence.*;
 
 import static javax.persistence.GenerationType.SEQUENCE;
@@ -28,6 +29,11 @@ public class Sale implements Serializable {
 	private Integer percent;
 
 	@ManyToOne
-	@JoinColumn(name="price_fk")
-	private Price price;
+	@JoinColumn(name="vapeshop_fk")
+	private Vapeshop vapeshop;
+
+	@ManyToMany(mappedBy="sales")
+	private List<Price> prices;
+
+	String info;
 }

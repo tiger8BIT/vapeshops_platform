@@ -21,14 +21,17 @@
         </div>
         <p>Никотин</p>
         <div class="input-group">
-            <input type="number" min="0" step="1" class="form-control" th:name="nicotine">
-            <div class="input-group-append">
-                <span class="input-group-text">мл</span>
+            <div class="input-group-prepend">
+                <div class="input-group-text">
+                    <p style="margin: 0 0; padding-right: 5px;">Солевой</p>
+                    <input type="radio" name="n-type" th:name="n_type" th:value="SALT">
+                    <p style="margin: 0 0; padding-right: 5px; padding-left: 5px;">Стандартный</p>
+                    <input type="radio" name="n-type" th:name="n_type" th:value="DEFAULT">
+                    <p style="margin: 0 0; padding-left: 5px; padding-right: 5px;">Гибридный</p>
+                    <input type="radio" name="n-type" th:name="n_type" th:value="GIBRID">
+                </div>
             </div>
-        </div>
-        <p>Солевой никотин</p>
-        <div class="input-group">
-            <input type="number" min="0" step="1" class="form-control" th:name="saltNicotine">
+            <input type="number" min="0" step="1" class="form-control" th:name="nicotine">
             <div class="input-group-append">
                 <span class="input-group-text">мл</span>
             </div>
