@@ -8,7 +8,7 @@
     cursor: pointer;
     width: 33%;
     min-width: 12em;
-    max-height: 30em;
+    max-height: 40em;
 }
 
 .prod .card:hover {

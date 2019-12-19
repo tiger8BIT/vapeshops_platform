@@ -2,14 +2,23 @@
 <html lang="ru" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <title></title>
+    <title>Успешно</title>
+    <div th:include="navbar :: navbar"></div>
+    <link rel="stylesheet" th:href="@{/css/title.css}"/>
+    <link rel="stylesheet" th:href="@{/css/action-list.css}"/>
 </head>
 <body>
 <div class="answer container">
-    <label th:text="${answer}"></label>
-    <form th:action="${path}" method="get">
-        <button type="submit" th:name="id" th:value="${id}" th:text="${btntext}"></button>
-    </form>
+    <div class="row-container title-container">
+        <div class="row-container">
+            <label th:text="${answer}"></label>
+        </div>
+    </div>
+    <div class="list-group">
+        <a th:href="${path}" th:text="${btntext}"
+           class="list-group-item list-group-item-action">
+        </a>
+    </div>
 </div>
 </body>
 </html>

@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="ru" xmlns:th="http://www.thymeleaf.org">
 <head>
-    <title>Добавление магазина</title>
+    <title>Поиск</title>
     <link rel="stylesheet" th:href="@{/css/form.css}"/>
     <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
@@ -23,6 +23,7 @@
                         ></p>
                         <p class="card-text no-price" th:if="${prod.getMinPrice()} == -1"
                         >НЕТ В ПРОДАЖЕ</p>
+                        <input class="e-id" type="hidden" th:value="${prod.getId()}">
                     </div>
                 </div>
             </tr>
@@ -34,8 +35,9 @@
                         <span aria-hidden="true">&laquo;</span>
                     </a>
                 </li>
-                <li class="page-item"><a class="page-link" th:href="@{/search(search=${search},page=1)}">1</a></li>
-                <li th:if="${pamount} >= 2" class="page-item"><a class="page-link" th:href="@{/search(search=${search},page=2)}">2</a></li>
+                <div th:each="page: ${pages}">
+                    <li class="page-item"><a class="page-link" th:text="${page}" th:href="@{search(search=${search},page=${page})}"></a></li>
+                </div>
                 <li class="page-item">
                     <a class="page-link" th:href="@{/search(search=${search},page=${next})}" aria-label="Next">
                         <span aria-hidden="true">&raquo;</span>
@@ -44,5 +46,6 @@
             </ul>
         </nav>
     </div>
+    <script type="text/javascript" th:src="@{/js/click.js}"></script>
 </body>
 </html>

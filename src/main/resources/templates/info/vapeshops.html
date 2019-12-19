@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="ru" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Магазины</title>
+    <div th:include="navbar :: navbar"></div>
+</head>
+<body>
+<table class="table table-image">
+    <thead>
+    <tr>
+        <th scope="col">#</th>
+        <th scope="col">Image</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr th:each="vapeshop: ${vapeshops}">
+        <th scope="row" th:text="${vapeshop.getId()}"></th>
+        <td class="w-25">
+            <img th:src="${vapeshop.getVepeshopImages()?.get(0)?.getUrl()}" class="img-fluid img-thumbnail">
+        </td>
+    </tr>
+    </tbody>
+</table>
+</body>
+</html>

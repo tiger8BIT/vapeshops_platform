@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="ru" xmlns:th="http://www.thymeleaf.org">
 <head>
-    <title>Добавление магазина</title>
+    <title>Жидкости</title>
     <link rel="stylesheet" th:href="@{/css/form.css}"/>
     <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
@@ -30,7 +30,7 @@
 </head>
 <body>
 <div class=prod-container>
-    <div class="filter">
+    <div class="filter" hidden>
         <div class="row-container">
             <p>Price range:</p>
             <input type="text" id="amount" readonly style="border:0; color:#f6931f; font-weight:bold;">
@@ -50,6 +50,7 @@
                     ></p>
                     <p class="card-text no-price" th:if="${eliquid.getProduct().getMinPrice()} == -1"
                     >НЕТ В ПРОДАЖЕ</p>
+                    <input class="e-id" type="hidden" th:value="${eliquid.getId()}">
                 </div>
             </div>
         </tr>
@@ -57,12 +58,13 @@
         <nav aria-label="Page navigation example" class="pages">
             <ul class="pagination">
                 <li class="page-item">
-                    <a class="page-link" th:href="@{/eliquids(page=${next})}" aria-label="Previous">
+                    <a class="page-link" th:href="@{/eliquids(page=${prev})}" aria-label="Previous">
                         <span aria-hidden="true">&laquo;</span>
                     </a>
                 </li>
-                <li class="page-item"><a class="page-link" href="?page=1">1</a></li>
-                <li class="page-item"><a class="page-link" href="?page=2">2</a></li>
+                <div th:each="page: ${pages}">
+                    <li class="page-item"><a class="page-link" th:text="${page}" th:href="@{/eliquids(page=${page})}"></a></li>
+                </div>
                 <li class="page-item">
                     <a class="page-link" th:href="@{/eliquids(page=${next})}" aria-label="Next">
                         <span aria-hidden="true">&raquo;</span>
@@ -72,5 +74,6 @@
         </nav>
     </div>
 </div>
+<script type="text/javascript" th:src="@{/js/click.js}"></script>
 </body>
 </html>

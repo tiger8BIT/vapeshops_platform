@@ -22,6 +22,8 @@ public class CNetworkController {
     private ImageService imageService;
     @Autowired
     private CommercialNetworkService commercialNetworkService;
+    @Autowired
+    private VapeshopService vapeshopService;
 
     @GetMapping("/username")
     public @ResponseBody String username(){
@@ -43,8 +45,8 @@ public class CNetworkController {
     }
 
     @GetMapping("private-office/cnetwork")
-    public String getPersonalOfficePage(@RequestParam("id") Integer id, Model model){
-        CommercialNetwork commercialNetwork = commercialNetworkService.findByID(id);
+    public String getPersonalOfficePage(Model model){
+        CommercialNetwork commercialNetwork = commercialNetworkService.findByUsername(securityService.findLoggedInUsername());
         model.addAttribute("cnetwork", commercialNetwork);
         return "private-office/cnetwork";
     }
@@ -55,6 +57,14 @@ public class CNetworkController {
         model.addAttribute("cnetwork", commercialNetwork);
         model.addAttribute("btntext", "Изменить");
         return "add/cnetwork";
+    }
+
+    @GetMapping("/vapeshops")
+    public String getVapeshopInfoPage(Model model){
+        CommercialNetwork commercialNetwork = commercialNetworkService.findByUsername(securityService.findLoggedInUsername());
+        List<Vapeshop> vapeshops = vapeshopService.findAllByCommercialNetwork(commercialNetwork);
+        model.addAttribute("vapeshops", vapeshops);
+        return "info/vapeshops";
     }
 
     @GetMapping("add/cnetwork")
@@ -76,28 +86,29 @@ public class CNetworkController {
                 id == null ? new CommercialNetwork() : commercialNetworkService.findByID(id);
         commercialNetwork.setName(name);
         commercialNetwork.setInfo(info);
-        commercialNetwork.setUsername(username);
-        commercialNetwork.setPassword(password);
-        commercialNetwork.setPasswordConfirm(password);
-        Image image = new Image();
+        if(id == null) {
+            commercialNetwork.setUsername(username);
+            commercialNetwork.setPassword(password);
+            commercialNetwork.setPasswordConfirm(password);
+        }
+        Image image = id == null ? new Image() : commercialNetwork.getImage();
         image.setUrl(logo);
         try {
             imageService.save(image);
             commercialNetwork.setImage(image);
-            commercialNetworkService.save(commercialNetwork);
+            if (id == null)
+                commercialNetworkService.save(commercialNetwork);
+            else
+                commercialNetworkService.update(commercialNetwork);
         } catch (Exception e) {
-            Throwable couse = e.getCause();
-            while(couse.getCause() != null) {
-                couse = couse.getCause();
-            }
-            log.error(couse.getMessage());
-            model.addAttribute("error", couse.getMessage());
+            model.addAttribute("error", e.getMessage());
             return "add/answer/error";
         }
-        securityService.autoLogin(username, password);
-        model.addAttribute("answer", "Торговая сеть успешно добавлена");
+        if (id == null) securityService.autoLogin(username, password);
+        model.addAttribute("answer", id == null ? "Торговая сеть успешно добавлена" : "Успешно изменено");
         model.addAttribute("id", commercialNetwork.getId());
-        model.addAttribute("path", "../../info/cnetwork");
+        model.addAttribute("path", "/private-office/cnetwork");
+        model.addAttribute("btntext", "Личный кабинет");
         return "add/answer/success";
     }
 }

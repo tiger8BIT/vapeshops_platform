@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="ru" xmlns:th="http://www.thymeleaf.org">
 <head>
-    <title>Добавление магазина</title>
+    <title>Добавление жидкости</title>
     <link rel="stylesheet" th:href="@{/css/form.css}"/>
     <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
@@ -10,6 +10,7 @@
 </head>
 <body>
 <div class="form container">
+    <label class="form-title">Добавление жидкости</label>
     <form id="form" th:action="@{/add/eliquid/post}" method="post">
         <div th:include="/add/product :: product-input"></div>
         <p>Объём</p>

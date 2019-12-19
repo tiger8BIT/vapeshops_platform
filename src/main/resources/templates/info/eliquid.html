@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="ru" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Товар</title>
+    <link rel="stylesheet" th:href="@{/css/form.css}"/>
+    <div th:include="navbar :: navbar"></div>
+</head>
+<body>
+<div class="form container">
+    <input id="img-id" type="hidden" th:value="${eliquid.getProduct().getId()}">
+    <label class="form-title" th:text="${eliquid.getProduct().getName()}"></label>
+    <div class="one-to-one-container">
+        <div class="two-row-container">
+            <div>
+                <div class="i-container">
+                    <div id="carouselExampleIndicators" class="carousel slide" data-ride="carousel">
+                        <ol class="carousel-indicators">
+                        </ol>
+                        <div class="carousel-inner">
+
+                        </div>
+                        <a class="carousel-control-prev" href="#carouselExampleIndicators" role="button" data-slide="prev">
+                            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                            <span class="sr-only">Previous</span>
+                        </a>
+                        <a class="carousel-control-next" href="#carouselExampleIndicators" role="button" data-slide="next">
+                            <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                            <span class="sr-only">Next</span>
+                        </a>
+                    </div>
+                </div>
+            </div>
+            <div class="scrollable-y-container">
+                <div>
+                    <table class="table">
+                        <thead>
+                        </thead>
+                        <tbody>
+                        <tr>
+                            <td>Объём</td>
+                            <td th:text="${eliquid.getVolume()}"></td>
+                        </tr>
+                        <tr>
+                            <td>vg</td>
+                            <td th:text="${eliquid.getBlendRatio().getVg()}"></td>
+                        </tr>
+                        <tr>
+                            <td>pg</td>
+                            <td th:text="${eliquid.getBlendRatio().getPg()}"></td>
+                        </tr>
+                        <tr>
+                            <td>Ментол</td>
+                            <td th:if="${eliquid.getMintMenthol()}">Да</td>
+                            <td th:if="!${eliquid.getMintMenthol()}">Нет</td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div><p th:text="${eliquid.getProduct().getInfo()}"></p></div>
+</div>
+<script type="text/javascript" th:src="@{/js/inf-img.js}"></script>
+</body>
+</html>

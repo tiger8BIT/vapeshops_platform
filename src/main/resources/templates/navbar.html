@@ -3,10 +3,11 @@
 <body>
 <div th:fragment="navbar">
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
     <link rel="stylesheet" th:href="@{/css/form.css}"/>
     <link rel="stylesheet" th:href="@{/css/navbar.css}"/>
     <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
-        <a class="navbar-brand" href="#">Vapeshop.ru</a>
+        <a class="navbar-brand" th:href="@{/eliquids(page=1)}">Vapeshop.ru</a>
         <form th:action="@{/search}" class="form-inline search mr-sm-2">
             <div class="input-group search">
                 <input class="form-control search" type="search" th:name="search" placeholder="Search" aria-label="Search">
@@ -16,15 +17,14 @@
                 </div>
             </div>
         </form>
-        <button data-toggle="modal" data-target="#singInModal" type="button" class="btn navbar-btn navbar-btn-dark" id="sing-in-btn">
-            <div class="i-container"><i class="material-icons">face</i></div>
-            Войти
-        </button>
+        <div id="sing-in-btn-container">
+
+        </div>
     </nav>
     <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
         <ul class="navbar-nav mr-auto mt-2 mt-lg-0" style="margin-left: -.5rem;">
             <li class="nav-item">
-                <a class="nav-link" href="#">Жидкости</a>
+                <a class="nav-link" th:href="@{eliquids(page = 1)}">Жидкости</a>
             </li>
             <li class="nav-item">
                 <a class="nav-link" href="#">Магазины</a>

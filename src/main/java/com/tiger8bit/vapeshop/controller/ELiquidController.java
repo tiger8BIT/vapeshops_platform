@@ -32,7 +32,7 @@ public class ELiquidController {
 
     @GetMapping("/search")
     public String search(@RequestParam("search") String search, @RequestParam("page") Integer page, Model model){
-        int count = 1;
+        int count = 4;
         int endIndex = count * page;
         int startIndex = endIndex - count;
         List<Product> products = productService.findAll();
@@ -40,27 +40,46 @@ public class ELiquidController {
         List<Product> res = products.stream()
                 .filter(i -> i.getName().contains(search) || i.getBrand().getName().contains(search))
                 .collect(Collectors.toList());
-        log.info("{}", products);
+        log.info("{}", products.size());
         log.info("{}", search);
         log.info("{}", res);
-        if(endIndex > res.size()) endIndex = res.size();
-        model.addAttribute("products", res.subList(startIndex, endIndex));
+        int maxpage = res.size() / count + ((res.size() % count != 0) ? 1 : 0);
+        List<Integer> pages = new LinkedList<>();
+        for(int i = 1; i <= maxpage; i++){
+            pages.add(i);
+        }
+        model.addAttribute("pages", pages);
+        model.addAttribute("products", res.subList(startIndex, Math.min(endIndex, res.size())));
         model.addAttribute("search", search);
-        model.addAttribute("pamount", res.size() <= count ? 1 : 2);
         model.addAttribute("prev", Math.max(page - 1, 1));
-        model.addAttribute("next", Math.min(page + 1, res.size() <= count ? 1 : 2 ));
+        model.addAttribute("next", Math.min(page + 1, maxpage));
         return "/search";
     }
 
-    @GetMapping("/eliquids")
+    @GetMapping({"/", "/eliquids"})
     public String getEliquidsPage(@RequestParam("page") Integer page, Model model){
-        int endIndex = 1 * page;
-        int startIndex = endIndex - 1;
+        int count = 3;
+        int endIndex = count * page;
+        int startIndex = endIndex - count;
         List<ELiquid> eLiquids = eLiquidService.findAll();
-        model.addAttribute("eliquids", eLiquids.subList(startIndex, endIndex));
+        int maxpage = eLiquids.size() / count + ((eLiquids.size() % count != 0) ? 1 : 0);
+        List<Integer> pages = new LinkedList<>();
+        for(int i = 1; i <= maxpage; i++){
+            pages.add(i);
+        }
+        model.addAttribute("pages", pages);
+        model.addAttribute("eliquids", eLiquids.subList(startIndex, Math.min(endIndex, eLiquids.size())));
         model.addAttribute("prev", Math.max(page - 1, 1));
-        model.addAttribute("next", Math.min(page + 1, eLiquids.size() <= 1 ? 1 : 2 ));
+        model.addAttribute("next", Math.min(page + 1, maxpage));
         return "/eliquids";
+    }
+
+    @GetMapping("product/images")
+    @ResponseBody public ResponseEntity getRegions(@RequestParam Integer id) {
+        Product product = productService.findByID(id);
+        List<Image> images = product.getProductImages();
+        List<String> urls = images.stream().map(Image::getUrl).collect(Collectors.toList());
+        return ResponseEntity.status(HttpStatus.OK).body(urls);
     }
 
     @GetMapping("info/eliquid")

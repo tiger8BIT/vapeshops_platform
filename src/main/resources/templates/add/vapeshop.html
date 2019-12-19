@@ -5,10 +5,12 @@
     <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
     <link rel="stylesheet" th:href="@{/css/form.css}"/>
+    <div th:include="navbar :: navbar"></div>
 </head>
 </head>
 <body>
 <div class="form container">
+    <label class="form-title">Добавление магазина</label>
     <form id="form" th:action="@{/add/vapeshop/post}" method="post">
         <p>Изображения</p>
         <div class="one-to-one-container">

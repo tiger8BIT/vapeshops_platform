@@ -587,3 +587,13 @@ BEGIN
     COMMIT;
 END;;
 
+CREATE PROCEDURE get_price_range(IN p_product_id INT)
+BEGIN
+    DECLARE min DOUBLE;
+    DECLARE max DOUBLE;
+    SET min = (SELECT MIN(p.value * s.percent) FROM price as p, sale as s, price_sale as ps
+        WHERE p.product_fk = p_product_id AND ps.price_fk = p.id AND ps.sale_fk = s.id);
+    SET max = (SELECT MIN(p.value * s.percent) FROM price as p, sale as s, price_sale as ps
+               WHERE p.product_fk = p_product_id AND ps.price_fk = p.id AND ps.sale_fk = s.id);
+    SELECT min AS MIN, max AS max;
+END;;

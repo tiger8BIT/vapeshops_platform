@@ -2,14 +2,12 @@
 <html lang="ru" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <title></title>
+    <title>Магазины</title>
 </head>
 <body>
-<div class="info container">
-    <p>Название</p>
-    <p th:text="${cnetwork.getName()}">
-    <p>Логотип</p>
-    <p th:text="${cnetwork.getLogo()}">
-</div>
+<tr th:each="vapeshop: ${vapeshops}">
+    <td th:text="${vapeshop?.getVapeshopImages()?.}" />
+    <td th:text="${student.name}" />
+</tr>
 </body>
 </html>

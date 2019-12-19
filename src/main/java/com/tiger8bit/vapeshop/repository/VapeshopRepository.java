@@ -1,9 +1,12 @@
 package com.tiger8bit.vapeshop.repository;
+import com.tiger8bit.vapeshop.model.CommercialNetwork;
 import com.tiger8bit.vapeshop.model.Vapeshop;
 import org.springframework.data.jpa.repository.query.Procedure;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
+
+import java.util.List;
 
 @Repository
 public interface VapeshopRepository extends CrudRepository<Vapeshop, Integer>, VapeshopProcedures {
@@ -13,4 +16,5 @@ public interface VapeshopRepository extends CrudRepository<Vapeshop, Integer>, V
                         @Param("p_city_fk") Integer p_city_fk,
                         @Param("p_commercial_network_fk") Integer p_commercial_network_fk,
                         @Param("p_pickup") Boolean p_pickup);
+    List<Vapeshop> findAllByCommercialNetwork(CommercialNetwork commercialNetwork);
 }

@@ -38,6 +38,8 @@ public class VapeshopController {
     private ImageService imageService;
     @Autowired
     private ContactLinkTypeService contactLinkTypeService;
+    @Autowired
+    private SecurityService securityService;
 
     @GetMapping("/regions")
     @ResponseBody public ResponseEntity getRegions(@RequestParam Integer countryId) {
@@ -83,7 +85,7 @@ public class VapeshopController {
         address.setCity(city);
         address.setAddress(addressInf);
         addressService.save(address);
-        CommercialNetwork commercialNetwork = commercialNetworkService.findByID(2);
+        CommercialNetwork commercialNetwork = commercialNetworkService.findByUsername(securityService.findLoggedInUsername());
         Vapeshop vapeshop = new Vapeshop();
         vapeshop.setCommercialNetwork(commercialNetwork);
         vapeshop.setAddress(address);

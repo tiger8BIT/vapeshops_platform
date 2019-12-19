@@ -1,4 +1,5 @@
 package com.tiger8bit.vapeshop.service;
+import com.tiger8bit.vapeshop.model.CommercialNetwork;
 import com.tiger8bit.vapeshop.model.Vapeshop;
 import com.tiger8bit.vapeshop.repository.VapeshopRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,6 +20,11 @@ public class VapeshopServiceImpl implements VapeshopService {
     @Override
     public List<Vapeshop> findAll() {
         return (List<Vapeshop>) repository.findAll();
+    }
+
+    @Override
+    public List<Vapeshop> findAllByCommercialNetwork(CommercialNetwork commercialNetwork) {
+        return repository.findAllByCommercialNetwork(commercialNetwork);
     }
 
     @Override

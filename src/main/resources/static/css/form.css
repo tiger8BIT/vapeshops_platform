@@ -143,3 +143,8 @@ a {
     padding: 1px 20px;
     background-color: coral;
 }
+
+.form-title {
+    font-size: x-large;
+    padding-left: 10px;
+}

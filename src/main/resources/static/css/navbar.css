@@ -39,3 +39,7 @@
     align-items: center;
     justify-content: flex-end;
 }
+
+.table-image td, .table-image th {
+    vertical-align: middle;
+}

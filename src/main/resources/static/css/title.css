@@ -10,9 +10,10 @@
     height: 50px;
 }
 
-label {
+.title-container label {
     font-size: 50px;
     margin: 0;
+    padding-left: 10px;
 }
 
 .row-container{

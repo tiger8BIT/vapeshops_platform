@@ -26,6 +26,11 @@ public class CommercialNetworkServiceImpl implements CommercialNetworkService {
     }
 
     @Override
+    public CommercialNetwork update(CommercialNetwork value) {
+        return repository.save(value);
+    }
+
+    @Override
     public void deleteByID(int id) {
         repository.deleteById(id);
     }
@@ -33,5 +38,10 @@ public class CommercialNetworkServiceImpl implements CommercialNetworkService {
     @Override
     public CommercialNetwork findByID(int id) {
         return repository.findById(id).get();
+    }
+
+    @Override
+    public CommercialNetwork findByUsername(String username) {
+        return repository.findByUsername(username);
     }
 }
