@@ -53,6 +53,8 @@ public class CNetworkController {
 
     @GetMapping("update/cnetwork")
     public String getUpdateVapeshopPage(@RequestParam("id") Integer id, Model model){
+        CommercialNetwork currrent = commercialNetworkService.findByUsername(securityService.findLoggedInUsername());
+        if (!currrent.getId().equals(id)) return "login";
         CommercialNetwork commercialNetwork = commercialNetworkService.findByID(id);
         model.addAttribute("cnetwork", commercialNetwork);
         model.addAttribute("btntext", "Изменить");

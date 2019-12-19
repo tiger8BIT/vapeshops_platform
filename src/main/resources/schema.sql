@@ -597,3 +597,54 @@ BEGIN
                WHERE p.product_fk = p_product_id AND ps.price_fk = p.id AND ps.sale_fk = s.id);
     SELECT min AS MIN, max AS max;
 END;;
+
+CREATE USER 'cnetwork'@'%';;
+ALTER USER 'cnetwork'@'%'
+    IDENTIFIED BY '1234' ;;
+GRANT Update ON vapeshop.* TO 'cnetwork'@'%';;
+GRANT Select ON vapeshop.* TO 'cnetwork'@'%';;
+GRANT Insert ON vapeshop.* TO 'cnetwork'@'%';;
+GRANT Delete ON vapeshop.* TO 'cnetwork'@'%';;
+FLUSH PRIVILEGES;;
+
+
+CREATE USER 'user'@'%';;
+ALTER USER 'user'@'%'
+    IDENTIFIED BY '1234' ;;
+GRANT Select ON vapeshop.* TO 'user'@'%';;
+FLUSH PRIVILEGES;;
+
+CREATE USER 'vpshadmin'@'%';;
+ALTER USER 'vpshadmin'@'%'
+    IDENTIFIED BY '1234' ;;
+GRANT Select ON vapeshop.* TO 'vpshadmin'@'%';;
+GRANT Alter ON vapeshop.* TO 'vpshadmin'@'%';;
+GRANT Create ON vapeshop.* TO 'vpshadmin'@'%';;
+GRANT Create view ON vapeshop.* TO 'vpshadmin'@'%';;
+GRANT Delete ON vapeshop.* TO 'vpshadmin'@'%';;
+GRANT Drop ON vapeshop.* TO 'vpshadmin'@'%';;
+GRANT Grant option ON vapeshop.* TO 'vpshadmin'@'%';;
+GRANT Index ON vapeshop.* TO 'vpshadmin'@'%';;
+GRANT Insert ON vapeshop.* TO 'vpshadmin'@'%';;
+GRANT References ON vapeshop.* TO 'vpshadmin'@'%';;
+GRANT Show view ON vapeshop.* TO 'vpshadmin'@'%';;
+GRANT Trigger ON vapeshop.* TO 'vpshadmin'@'%';;
+GRANT Update ON vapeshop.* TO 'vpshadmin'@'%';;
+GRANT Alter routine ON vapeshop.* TO 'vpshadmin'@'%';;
+GRANT Create routine ON vapeshop.* TO 'vpshadmin'@'%';;
+GRANT Create temporary tables ON vapeshop.* TO 'vpshadmin'@'%';;
+GRANT Execute ON vapeshop.* TO 'vpshadmin'@'%';;
+GRANT Lock tables ON vapeshop.* TO 'vpshadmin'@'%';;
+GRANT Create user ON *.* TO 'vpshadmin'@'%';;
+GRANT Event ON *.* TO 'vpshadmin'@'%';;
+GRANT File ON *.* TO 'vpshadmin'@'%';;
+GRANT Process ON *.* TO 'vpshadmin'@'%';;
+GRANT Reload ON *.* TO 'vpshadmin'@'%';;
+GRANT Replication client ON *.* TO 'vpshadmin'@'%';;
+GRANT Replication slave ON *.* TO 'vpshadmin'@'%';;
+GRANT Show databases ON *.* TO 'vpshadmin'@'%';;
+GRANT Shutdown ON *.* TO 'vpshadmin'@'%';;
+GRANT Super ON *.* TO 'vpshadmin'@'%';;
+GRANT Create tablespace ON *.* TO 'vpshadmin'@'%';;
+GRANT Usage ON *.* TO 'vpshadmin'@'%';;
+FLUSH PRIVILEGES;;
