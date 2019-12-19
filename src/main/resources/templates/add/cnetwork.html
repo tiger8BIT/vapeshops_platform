@@ -10,6 +10,12 @@
 <div class="form container">
     <form id="form" th:action="@{/add/cnetwork/post}" method="post">
         <input type="hidden" th:name="id" th:value="${cnetwork?.getId()}" />
+        <p>Логин</p>
+        <input required type="text" placeholder="Логин"
+               th:name="username"/>
+        <p>Пароль</p>
+        <input required type="password" placeholder="Пароль"
+               th:name="password"/>
         <p>Название</p>
         <input required type="text" placeholder="Табакерка Ивана" th:value="${cnetwork?.getName()}"
                th:name="name"/>

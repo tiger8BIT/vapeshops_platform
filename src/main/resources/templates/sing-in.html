@@ -5,6 +5,7 @@
     <div class="modal fade" id="singInModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered" role="document">
             <div class="modal-content">
+                <div id="sing-in-result"><p></p></div>
                 <div class="modal-header">
                     <h5 class="modal-title" id="exampleModalCenterTitle">Вход</h5>
                     <div class="row-container-end"><a href="/add/cnetwork">Регистрация</a></div>
@@ -13,15 +14,16 @@
                     </button>
                 </div>
                 <div class="modal-body">
-                    <form action="javascript: singin();" id="sing-in">
-                        <input id="login" type="text" placeholder="User" th:name="name"/>
-                        <input id="password" type="password" placeholder="Password" th:name="name"/>
+                    <form th:action="@{/login}" id="sing-in" method="post">
+                        <input id="username" type="text" placeholder="User" name="username"/>
+                        <input id="password" type="password" placeholder="Password" name="password"/>
                         <input type="submit" value="Войти">
                     </form>
                 </div>
             </div>
         </div>
     </div>
+    <script type="text/javascript" th:src="@{/js/sing-in.js}"></script>
 </div>
 </body>
 </html>

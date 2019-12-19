@@ -2,12 +2,15 @@ package com.tiger8bit.vapeshop.service;
 import com.tiger8bit.vapeshop.model.CommercialNetwork;
 import com.tiger8bit.vapeshop.repository.CommercialNetworkRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 
 @Service
 public class CommercialNetworkServiceImpl implements CommercialNetworkService {
+    @Autowired
+    private BCryptPasswordEncoder bCryptPasswordEncoder;
     @Autowired
     private CommercialNetworkRepository repository;
 
@@ -18,6 +21,7 @@ public class CommercialNetworkServiceImpl implements CommercialNetworkService {
 
     @Override
     public CommercialNetwork save(CommercialNetwork value) {
+        value.setPassword(bCryptPasswordEncoder.encode(value.getPassword()));
         return repository.save(value);
     }
 

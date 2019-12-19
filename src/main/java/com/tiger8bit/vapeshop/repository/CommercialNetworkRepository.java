@@ -5,5 +5,5 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface CommercialNetworkRepository extends CrudRepository<CommercialNetwork, Integer> {
-
+    CommercialNetwork findByUsername(String username);
 }

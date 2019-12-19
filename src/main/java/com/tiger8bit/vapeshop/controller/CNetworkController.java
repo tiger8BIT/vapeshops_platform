@@ -17,11 +17,23 @@ import java.util.stream.Collectors;
 @Controller
 public class CNetworkController {
     @Autowired
-    private VapeshopService vapeshopService;
+    private SecurityService securityService;
     @Autowired
     private ImageService imageService;
     @Autowired
     private CommercialNetworkService commercialNetworkService;
+
+    @GetMapping("/username")
+    public @ResponseBody String username(){
+        return securityService.findLoggedInUsername();
+    }
+
+    @GetMapping("/login")
+    public String login(Model model, String error, String logout){
+        log.info("{}", securityService.findLoggedInUsername());
+        model.addAttribute("error", error);
+        return "sing-in-page";
+    }
 
     @GetMapping("info/cnetwork")
     public String getCnetworkInfoPage(@RequestParam("id") Integer id, Model model){
@@ -51,7 +63,9 @@ public class CNetworkController {
         return "add/cnetwork";
     }
     @PostMapping("add/cnetwork/post")
-    public String newVapeshop(@RequestParam Integer id,
+    public String newCNetwork(@RequestParam Integer id,
+                              @RequestParam String username,
+                              @RequestParam String password,
                               @RequestParam String logo,
                               @RequestParam String name,
                               @RequestParam String info,
@@ -62,6 +76,9 @@ public class CNetworkController {
                 id == null ? new CommercialNetwork() : commercialNetworkService.findByID(id);
         commercialNetwork.setName(name);
         commercialNetwork.setInfo(info);
+        commercialNetwork.setUsername(username);
+        commercialNetwork.setPassword(password);
+        commercialNetwork.setPasswordConfirm(password);
         Image image = new Image();
         image.setUrl(logo);
         try {
@@ -69,7 +86,6 @@ public class CNetworkController {
             commercialNetwork.setImage(image);
             commercialNetworkService.save(commercialNetwork);
         } catch (Exception e) {
-            //imageService.deleteByID(image.getId());
             Throwable couse = e.getCause();
             while(couse.getCause() != null) {
                 couse = couse.getCause();
@@ -78,6 +94,7 @@ public class CNetworkController {
             model.addAttribute("error", couse.getMessage());
             return "add/answer/error";
         }
+        securityService.autoLogin(username, password);
         model.addAttribute("answer", "Торговая сеть успешно добавлена");
         model.addAttribute("id", commercialNetwork.getId());
         model.addAttribute("path", "../../info/cnetwork");

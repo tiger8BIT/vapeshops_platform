@@ -32,6 +32,13 @@ public class CommercialNetwork implements Serializable {
 
 	private String name;
 
+	private String username;
+
+	private String password;
+
+	@Transient
+	private String passwordConfirm;
+
 	@ToString.Exclude
 	@OneToMany(mappedBy="commercialNetwork")
 	private List<Vapeshop> vapeshops;

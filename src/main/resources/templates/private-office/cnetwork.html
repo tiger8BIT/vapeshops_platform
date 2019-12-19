@@ -45,10 +45,13 @@
                 <div class="i-container"><i class="material-icons">add_circle_outline</i></div>
                 Добавить товар
             </a>
-            <a href="#" class="list-group-item list-group-item-action" id="log-out-action">
+            <a href="javascript: document.logoutForm.submit()"  class="list-group-item list-group-item-action" id="log-out-action">
                 <div class="i-container"><i class="material-icons">rowing</i></div>
                 Выйти
             </a>
+            <form name="logoutForm" th:action="@{/logout}" method="post" th:hidden="true">
+                <input hidden type="submit" value="Sign Out"/>
+            </form>
         </div>
     </div>
 <script

@@ -48,7 +48,9 @@ CREATE TABLE `commercial_network` (
     `id` int UNIQUE PRIMARY KEY NOT NULL AUTO_INCREMENT,
     `name` varchar(255) UNIQUE NOT NULL,
     `info` mediumtext,
-    `image_fk` int UNIQUE
+    `image_fk` int UNIQUE,
+    `username` varchar(30) NOT NULL UNIQUE,
+    `password` varchar(254) NOT NULL
 );;
 
 CREATE TABLE `vapeshop` (
@@ -173,13 +175,13 @@ CREATE TABLE `image`
     `url` varchar(512) UNIQUE NOT NULL
 );;
 
-ALTER TABLE `nicotine` ADD FOREIGN KEY (`eliquid_fk`) REFERENCES `e_liquid` (`id`);;
+ALTER TABLE `nicotine` ADD FOREIGN KEY (`eliquid_fk`) REFERENCES `e_liquid` (`id`) ON DELETE CASCADE;;
 
-ALTER TABLE `price_sale` ADD FOREIGN KEY (`price_fk`) REFERENCES `price` (`id`);;
+ALTER TABLE `price_sale` ADD FOREIGN KEY (`price_fk`) REFERENCES `price` (`id`) ON DELETE CASCADE;;
 
-ALTER TABLE `price_sale` ADD FOREIGN KEY (`sale_fk`) REFERENCES `sale` (`id`);;
+ALTER TABLE `price_sale` ADD FOREIGN KEY (`sale_fk`) REFERENCES `sale` (`id`) ON DELETE CASCADE;;
 
-ALTER TABLE `sale` ADD FOREIGN KEY (`vapeshop_fk`) REFERENCES `vapeshop` (`id`);;
+ALTER TABLE `sale` ADD FOREIGN KEY (`vapeshop_fk`) REFERENCES `vapeshop` (`id`) ON DELETE CASCADE;;
 
 ALTER TABLE `commercial_network` ADD FOREIGN KEY (`image_fk`) REFERENCES `image` (`id`);;
 
@@ -187,13 +189,13 @@ ALTER TABLE `brand` ADD FOREIGN KEY (`image_fk`) REFERENCES `image` (`id`);;
 
 ALTER TABLE `country` ADD FOREIGN KEY (`currency_fk`) REFERENCES `currency` (`id`);;
 
-ALTER TABLE `vapeshop_currency` ADD FOREIGN KEY (`currency_fk`) REFERENCES `currency` (`id`);;
+ALTER TABLE `vapeshop_currency` ADD FOREIGN KEY (`currency_fk`) REFERENCES `currency` (`id`) ON DELETE CASCADE;;
 
-ALTER TABLE `vapeshop_currency` ADD FOREIGN KEY (`vapeshop_fk`) REFERENCES `vapeshop` (`id`);;
+ALTER TABLE `vapeshop_currency` ADD FOREIGN KEY (`vapeshop_fk`) REFERENCES `vapeshop` (`id`) ON DELETE CASCADE;;
 
-ALTER TABLE `product` ADD FOREIGN KEY (`brand_fk`) REFERENCES `brand` (`id`) ON DELETE CASCADE;;
+ALTER TABLE `product` ADD FOREIGN KEY (`brand_fk`) REFERENCES `brand` (`id`);;
 
-ALTER TABLE `order_price` ADD FOREIGN KEY (`price_fk`) REFERENCES `price` (`id`);;
+ALTER TABLE `order_price` ADD FOREIGN KEY (`price_fk`) REFERENCES `price` (`id`) ON DELETE CASCADE;;
 
 ALTER TABLE `order_price` ADD FOREIGN KEY (`order_fk`) REFERENCES `order` (`id`) ON DELETE CASCADE;;
 
@@ -209,9 +211,9 @@ ALTER TABLE `delivery_price` ADD FOREIGN KEY (`vapeshop_fk`) REFERENCES `vapesho
 
 ALTER TABLE `vapeshop` ADD FOREIGN KEY (`address_fk`) REFERENCES `address` (`id`);;
 
-ALTER TABLE `vapeshop` ADD FOREIGN KEY (`commercial_network_fk`) REFERENCES `commercial_network` (`id`);;
+ALTER TABLE `vapeshop` ADD FOREIGN KEY (`commercial_network_fk`) REFERENCES `commercial_network` (`id`) ON DELETE CASCADE;;
 
-ALTER TABLE `address` ADD FOREIGN KEY (`city_fk`) REFERENCES `city` (`id`);;
+ALTER TABLE `address` ADD FOREIGN KEY (`city_fk`) REFERENCES `city` (`id`) ON DELETE CASCADE;;
 
 ALTER TABLE `city` ADD FOREIGN KEY (`country_fk`) REFERENCES `country` (`id`) ON DELETE CASCADE;;
 
@@ -237,11 +239,11 @@ ALTER TABLE `vapeshop_image` ADD FOREIGN KEY (`vapeshop_fk`) REFERENCES `vapesho
 
 ALTER TABLE `vapeshop_image` ADD FOREIGN KEY (`image_fk`) REFERENCES `image` (`id`) ON DELETE CASCADE;;
 
-ALTER TABLE `e_liquid_flavor_profile` ADD FOREIGN KEY (`e_liquid_fk`) REFERENCES `e_liquid` (`id`);;
+ALTER TABLE `e_liquid_flavor_profile` ADD FOREIGN KEY (`e_liquid_fk`) REFERENCES `e_liquid` (`id`) ON DELETE CASCADE;;
 
-ALTER TABLE `e_liquid_flavor_profile` ADD FOREIGN KEY (`flavor_profile_fk`) REFERENCES `flavor_profile` (`id`);;
+ALTER TABLE `e_liquid_flavor_profile` ADD FOREIGN KEY (`flavor_profile_fk`) REFERENCES `flavor_profile` (`id`) ON DELETE CASCADE;;
 
-ALTER TABLE `contact_link` ADD FOREIGN KEY (`type_fk`) REFERENCES `contact_link_type` (`id`);;
+ALTER TABLE `contact_link` ADD FOREIGN KEY (`type_fk`) REFERENCES `contact_link_type` (`id`) ON DELETE CASCADE;;
 
 CREATE FUNCTION `GetSumm` (order_price_id int)
     RETURNS int DETERMINISTIC
@@ -457,6 +459,36 @@ BEGIN
     END IF;
 END;;
 
+CREATE TRIGGER cnetwork_delete
+    BEFORE DELETE ON commercial_network FOR EACH ROW
+BEGIN
+    DELETE image FROM image WHERE id = OLD.image_fk;
+END;;
+
+CREATE TRIGGER country_delete
+    BEFORE DELETE ON country FOR EACH ROW
+BEGIN
+    DELETE currency FROM currency WHERE id = OLD.currency_fk;
+END;;
+
+CREATE TRIGGER order_delete
+    BEFORE DELETE ON `order` FOR EACH ROW
+BEGIN
+    DELETE delivery FROM delivery WHERE id = OLD.delivery_fk;
+END;;
+
+CREATE TRIGGER delivery_delete
+    BEFORE DELETE ON delivery FOR EACH ROW
+BEGIN
+    DELETE address FROM address WHERE id = OLD.address_fk;
+END;;
+
+CREATE TRIGGER vapeshop_delete
+    BEFORE DELETE ON vapeshop FOR EACH ROW
+BEGIN
+    DELETE address FROM address WHERE id = OLD.address_fk;
+END;;
+
 CREATE PROCEDURE add_vapeshop(IN p_address varchar(30),
                               IN p_city_fk int, IN p_commercial_network_fk int,
                               IN p_pickup boolean, OUT p_vapeshop_id int)
@@ -554,3 +586,4 @@ BEGIN
     end if;
     COMMIT;
 END;;
+
