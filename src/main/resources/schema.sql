@@ -249,7 +249,8 @@ CREATE FUNCTION `GetSumm` (order_price_id int)
     RETURNS int DETERMINISTIC
 BEGIN
     DECLARE Summ int;
-    SELECT op.amount*p.value INTO Summ
+    SET Summ = 0;                                             
+    SELECT op.amount*p.value+Summ INTO Summ;
     FROM order_price as op, price as p
     WHERE op.id = order_price_id AND p.product_fk = op.price_fk;
     RETURN Summ;
